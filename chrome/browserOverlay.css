@@ -1,0 +1,20 @@
+
+#PopupAutoCompleteRichResult {
+  background-color: red;
+  border: 10px solid green;
+  -moz-binding: url(chrome://awesom-o/content/urlbarBindings.xml#rich-result);
+}
+
+
+#PopupAutoComplete {
+}
+
+statusbar {
+  color: red !important;
+}
+
+#urlbar {
+  -moz-binding: url(chrome://awesom-o/content/urlbarBindings.xml#urlbar);
+}
+
+
