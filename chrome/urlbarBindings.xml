@@ -1,59 +1,6 @@
 <?xml version="1.0"?>
 <bindings id="urlbarBindings" xmlns="http://www.mozilla.org/xbl">
   <binding id="urlbar" extends="chrome://browser/content/urlbarBindings.xml#urlbar">
-    <implementation>
-      <constructor><![CDATA[
-        // defer some of our construction for a moment
-        var self = this;
-        setTimeout(function() {
-          self.__AS_iframe = document.getElementById('__AS_iframe');
-          self.__AS_iframe.addEventListener('DOMContentLoaded', 
-              function(event) { self.__AS_iframe_loaded(event) }, false);
-        }, 0);
-        ]]></constructor>
-      <method name="__AS_iframe_loaded">
-        <parameter name="event"/>
-        <body><![CDATA[
-          window.AwesomeSearch.log('loaded...');
-          window.AwesomeSearch.log(event.target.location);
-          if (event.target.location == 'about:blank') {
-            return;
-          }
-          AwesomeSearch.clearSearchResults();
-          AwesomeSearch.addSearchResult("Ian McKellar", "", 
-              "http://ian.mckellar.org/",
-              "http://ian.mckellar.org/favicon.ico", "this is a test");
-          ]]></body>
-      </method>
-      <property name="richlistbox">
-        <getter><![CDATA[
-          if (!this._richlistbox) {
-            // find our results popup & richlistbox
-            var popup = document.getElementById('PopupAutoCompleteRichResult');
-            this._richlistbox = document.getAnonymousElementByAttribute(popup, 
-                'anonid', 'richlistbox');
-          }
-          return this._richlistbox;
-          ]]></getter>
-      </property>
-    </implementation>
-    <handlers>
-      <handler event="keypress"><![CDATA[
-        if (String.fromCharCode(event.charCode) == 'g' && event.ctrlKey) {
-          // clear the old results
-          AwesomeSearch.clearSearchResults();
-
-          AwesomeSearch.log(this.__AS_iframe);
-
-          this.__AS_iframe.setAttribute('src',
-              'http://www.google.com/search?q=' + 'hello');
-
-          // prevent the regular key handling
-          event.preventDefault();
-          event.stopPropagation();
-        }
-      ]]></handler>
-    </handlers>
   </binding>
 
   <binding id="rich-result" extends="chrome://browser/content/urlbarBindings.xml#urlbar-rich-result-popup">

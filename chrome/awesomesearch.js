@@ -22,6 +22,12 @@ AwesomeSearch.windowOnLoad = function() {
   this.popup = document.getElementById('PopupAutoCompleteRichResult');
   this.richlistbox = document.getAnonymousElementByAttribute(this.popup,
       'anonid', 'richlistbox');
+
+  // add event handlers as required
+  this.iframe.addEventListener('DOMContentLoaded', 
+      function (event) { AwesomeSearch.iframeOnLoad(event); }, false);
+  this.urlbar.addEventListener('keypress',
+      function (event) { AwesomeSearch.urlbarOnKeyPress(event); }, false);
 }
 
 // search result richlistbox management
@@ -43,6 +49,34 @@ AwesomeSearch.clearSearchResults = function () {
   }
 }
 
+// iframe load handler
+AwesomeSearch.iframeOnLoad = function(event) {
+  this.log('loaded...');
+  this.log(event.target.location);
+  if (event.target.location == 'about:blank') {
+    return;
+  }
+  this.clearSearchResults();
+  this.addSearchResult("Ian McKellar", "", "http://ian.mckellar.org/",
+      "http://ian.mckellar.org/favicon.ico", "this is a test");
+}
+
+// urlbar keypress handler
+AwesomeSearch.urlbarOnKeyPress = function(event) {
+  // ctrl-G mean Google
+  if (String.fromCharCode(event.charCode) == 'g' && event.ctrlKey) {
+    // clear the old results
+    this.clearSearchResults();
+
+    this.log(this.__AS_iframe);
+
+    this.iframe.setAttribute('src', 'http://www.google.com/search?q=hello');
+
+    // prevent the regular key handling
+    event.preventDefault();
+    event.stopPropagation();
+  }
+}
 
 
 window.addEventListener('load', function() { AwesomeSearch.windowOnLoad() },
