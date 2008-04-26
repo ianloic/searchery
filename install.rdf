@@ -5,10 +5,10 @@
 
   <Description rdf:about="urn:mozilla:install-manifest">
     <em:id>awesomesearch@ianloic.com</em:id>
-    <em:name>AWESOM-0</em:name>
+    <em:name>AwesomeSearch</em:name>
     <em:version>0.0.1</em:version>
-    <em:creator>Ian McKellar</em:creator>
-    <em:description>A helpful robot for your AwesomeBar</em:description>
+    <em:creator>Ian McKellar &lt;ian@mckellar.org&gt;</em:creator>
+    <em:description>Make web search awesome</em:description>
     <em:homepageURL>http://ian.mckellar.org/</em:homepageURL>
     <em:targetApplication>
       <Description>
