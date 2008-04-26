@@ -1,2 +1,2 @@
 run:
-	firefox -no-remote -P awesom-o -jsconsole
+	firefox -no-remote -P awesomesearch -jsconsole

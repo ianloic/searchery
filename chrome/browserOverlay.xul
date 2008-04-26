@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<?xml-stylesheet href="chrome://awesom-o/content/browserOverlay.css" type="text/css"?>
+<?xml-stylesheet href="chrome://awesomesearch/content/browserOverlay.css" type="text/css"?>
 
-<overlay id="awesom-o-browser-overlay" 
+<overlay id="awesomesearch-browser-overlay" 
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
   <statusbar id="status-bar">
@@ -21,7 +21,7 @@
       Components.classes["@mozilla.org/consoleservice;1"]
       .getService(Components.interfaces.nsIConsoleService);
     window.__log = function(aMessage) { 
-      window.__consoleService.logStringMessage("[awesom-o] " + aMessage);
+      window.__consoleService.logStringMessage("[awesomesearch] " + aMessage);
     }
   </script>
 

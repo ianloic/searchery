@@ -2,7 +2,7 @@
 #PopupAutoCompleteRichResult {
   background-color: red;
   border: 10px solid green;
-  -moz-binding: url(chrome://awesom-o/content/urlbarBindings.xml#rich-result);
+  -moz-binding: url(chrome://awesomesearch/content/urlbarBindings.xml#rich-result);
 }
 
 
@@ -14,7 +14,7 @@ statusbar {
 }
 
 #urlbar {
-  -moz-binding: url(chrome://awesom-o/content/urlbarBindings.xml#urlbar);
+  -moz-binding: url(chrome://awesomesearch/content/urlbarBindings.xml#urlbar);
 }
 
 

@@ -4,7 +4,7 @@
      xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 
   <Description rdf:about="urn:mozilla:install-manifest">
-    <em:id>awesom-o@ianloic.com</em:id>
+    <em:id>awesomesearch@ianloic.com</em:id>
     <em:name>AWESOM-0</em:name>
     <em:version>0.0.1</em:version>
     <em:creator>Ian McKellar</em:creator>
