@@ -16,13 +16,7 @@
     </panel>
   </popupset>
 
-  <script type="text/javascript">
-    window.__consoleService = 
-      Components.classes["@mozilla.org/consoleservice;1"]
-      .getService(Components.interfaces.nsIConsoleService);
-    window.__log = function(aMessage) { 
-      window.__consoleService.logStringMessage("[awesomesearch] " + aMessage);
-    }
+  <script type="text/javascript" src="chrome://awesomesearch/content/browserOverlay.js"></script>
   </script>
 
 </overlay>
