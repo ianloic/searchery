@@ -6,6 +6,7 @@
 
   <statusbar id="status-bar">
     <label value="lemmiwinks!" />
+    <iframe id="__AS_iframe" width="10" height="10" />
   </statusbar>
 
   <popupset id="mainPopupSet">
@@ -23,4 +24,5 @@
       window.__consoleService.logStringMessage("[awesom-o] " + aMessage);
     }
   </script>
+
 </overlay>

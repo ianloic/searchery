@@ -3,7 +3,27 @@
   <binding id="urlbar" extends="chrome://browser/content/urlbarBindings.xml#urlbar">
     <implementation>
       <constructor><![CDATA[
+        // defer some of our construction for a moment
+        var self = this;
+        setTimeout(function() {
+          self.__AS_iframe = document.getElementById('__AS_iframe');
+          self.__AS_iframe.addEventListener('DOMContentLoaded', 
+              function(event) { self.__AS_iframe_loaded(event) }, false);
+        }, 0);
         ]]></constructor>
+      <method name="__AS_iframe_loaded">
+        <parameter name="event"/>
+        <body><![CDATA[
+          window.__log('loaded...');
+          window.__log(event.target.location);
+          if (event.target.location == 'about:blank') {
+            return;
+          }
+          this.__clearSearchResults();
+          this.__addSearchResult("Ian McKellar", "", "http://ian.mckellar.org/",
+              "http://ian.mckellar.org/favicon.ico", "this is a test");
+          ]]></body>
+      </method>
       <property name="richlistbox">
         <getter><![CDATA[
           if (!this._richlistbox) {
@@ -50,9 +70,10 @@
           // clear the old results
           this.__clearSearchResults();
 
-          // put in new ones
-          this.__addSearchResult("Ian McKellar", "", "http://ian.mckellar.org/",
-              "http://ian.mckellar.org/favicon.ico", "this is a test");
+          window.__log(this.__AS_iframe);
+
+          this.__AS_iframe.setAttribute('src',
+              'http://www.google.com/search?q=' + 'hello');
 
           // prevent the regular key handling
           event.preventDefault();
@@ -76,20 +97,9 @@
         var label = document.createElement('label');
         label.setAttribute('value', 'press control-G for google');
         this.__hbox.appendChild(label);
-        var button = document.createElement('button');
-        button.setAttribute('label', 'google');
-        this.__hbox.appendChild(button);
         var spacer = document.createElement('spacer');
         spacer.setAttribute('flex', '1');
         this.__hbox.appendChild(spacer);
-
-        this.__googleButtonEventHandler = function (evt) {
-          alert('google button clicked');
-        }
-        button.addEventListener('command', this.__googleButtonEventHandler,
-            true);
-        button.addEventListener('click', this.__googleButtonEventHandler,
-            true);
 
       ]]></constructor>
     </implementation>
