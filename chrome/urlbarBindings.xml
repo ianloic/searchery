@@ -19,8 +19,9 @@
           if (event.target.location == 'about:blank') {
             return;
           }
-          this.__clearSearchResults();
-          this.__addSearchResult("Ian McKellar", "", "http://ian.mckellar.org/",
+          AwesomeSearch.clearSearchResults();
+          AwesomeSearch.addSearchResult("Ian McKellar", "", 
+              "http://ian.mckellar.org/",
               "http://ian.mckellar.org/favicon.ico", "this is a test");
           ]]></body>
       </method>
@@ -35,40 +36,12 @@
           return this._richlistbox;
           ]]></getter>
       </property>
-      <method name="__addSearchResult">
-        <parameter name="title"/>
-        <parameter name="type"/>
-        <parameter name="url"/>
-        <parameter name="image"/>
-        <parameter name="text"/>
-        <body><![CDATA[
-          var item = document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "richlistitem");
-          item.setAttribute("image", image);
-          item.setAttribute("url", url);
-          item.setAttribute("title", title);
-          item.setAttribute("type", type);
-          item.setAttribute("text", text);
-      
-          item.className = "autocomplete-richlistitem";
-          this.richlistbox.appendChild(item);
-
-          ]]></body>
-      </method>
-
-      <method name="__clearSearchResults">
-        <body><![CDATA[
-            while (this.richlistbox.firstChild) {
-              this.richlistbox.removeChild(this.richlistbox.firstChild);
-            }
-          ]]></body>
-      </method>
-
     </implementation>
     <handlers>
       <handler event="keypress"><![CDATA[
         if (String.fromCharCode(event.charCode) == 'g' && event.ctrlKey) {
           // clear the old results
-          this.__clearSearchResults();
+          AwesomeSearch.clearSearchResults();
 
           AwesomeSearch.log(this.__AS_iframe);
 

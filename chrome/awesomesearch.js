@@ -24,6 +24,25 @@ AwesomeSearch.windowOnLoad = function() {
       'anonid', 'richlistbox');
 }
 
+// search result richlistbox management
+AwesomeSearch.addSearchResult = function(title, type, url, image, text) {
+  var item = document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "richlistitem");
+  item.setAttribute("image", image);
+  item.setAttribute("url", url);
+  item.setAttribute("title", title);
+  item.setAttribute("type", type);
+  item.setAttribute("text", text);
+
+  item.className = "autocomplete-richlistitem";
+  this.richlistbox.appendChild(item);
+}
+
+AwesomeSearch.clearSearchResults = function () {
+  while (this.richlistbox.firstChild) {
+    this.richlistbox.removeChild(this.richlistbox.firstChild);
+  }
+}
+
 
 
 window.addEventListener('load', function() { AwesomeSearch.windowOnLoad() },
