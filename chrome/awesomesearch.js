@@ -12,4 +12,12 @@ AwesomeSearch.log = function(aMessage) {
   dump(aMessage);
 }
 
+// initialization
+AwesomeSearch.windowOnLoad = function() {
+  this.log('windowOnLoad');
+}
 
+
+
+window.addEventListener('load', function() { AwesomeSearch.windowOnLoad() },
+    false);

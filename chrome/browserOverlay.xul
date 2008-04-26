@@ -16,7 +16,7 @@
     </panel>
   </popupset>
 
-  <script type="text/javascript" src="chrome://awesomesearch/content/browserOverlay.js"></script>
-  </script>
+  <script type="text/javascript" 
+    src="chrome://awesomesearch/content/awesomesearch.js"></script>
 
 </overlay>

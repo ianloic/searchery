@@ -14,8 +14,8 @@
       <method name="__AS_iframe_loaded">
         <parameter name="event"/>
         <body><![CDATA[
-          window.__log('loaded...');
-          window.__log(event.target.location);
+          window.AwesomeSearch.log('loaded...');
+          window.AwesomeSearch.log(event.target.location);
           if (event.target.location == 'about:blank') {
             return;
           }
@@ -70,7 +70,7 @@
           // clear the old results
           this.__clearSearchResults();
 
-          window.__log(this.__AS_iframe);
+          AwesomeSearch.log(this.__AS_iframe);
 
           this.__AS_iframe.setAttribute('src',
               'http://www.google.com/search?q=' + 'hello');
@@ -114,7 +114,7 @@
         }
 
         var rlb = document.getAnonymousElementByAttribute(this, 'class', 'autocomplete-richlistbox');
-        window.__log(rlb.childNodes.length);
+        AwesomeSearch.log(rlb.childNodes.length);
       ]]></handler>
     </handlers>
   </binding>
