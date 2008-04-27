@@ -14,11 +14,9 @@ Cu.import("resource://gre/modules/JSON.jsm");
 
 
 // Implements nsIAutoCompleteSearch
-function WebSearchAutoCompleteSearch() {
-  this._xhr = null;
-}
+function BaseAutoCompleteSearch() {}
 
-WebSearchAutoCompleteSearch.prototype = {
+BaseAutoCompleteSearch.prototype = {
   // start a search
   startSearch: function(searchString, searchParam, previousResult, listener) {
     // set state
@@ -128,13 +126,18 @@ WebSearchAutoCompleteSearch.prototype = {
   },
 
   // XPCOM registration
-  classDescription: "AwesomeSearch Google AutoComplete",
-  contractID: "@mozilla.org/autocomplete/search;1?name=as-google",
-  classID: Components.ID("7ffb0fd2-b67d-48d8-b9d0-7069764cb448"),
   QueryInterface: XPCOMUtils.generateQI([Ci.nsIAutoCompleteSearch,
       Ci.nsIAutoCompleteResult])
 };
 
+GoogleAutoCompleteSearch = {};
+GoogleAutoCompleteSearch.prototype = new BaseAutoCompleteSearch();
+GoogleAutoCompleteSearch.classDescription = 'AwesomeSearch Google AutoComplete';
+GoogleAutoCompleteSearch.contractID =
+    '@mozilla.org/autocomplete/search;1?name=as-google';
+GoogleAutoCompleteSearch.classID =
+    Components.ID("7ffb0fd2-b67d-48d8-b9d0-7069764cb448");
+
 function NSGetModule(compMgr, fileSpec) {
-  return XPCOMUtils.generateModule([WebSearchAutoCompleteSearch]);
+  return XPCOMUtils.generateModule([BaseAutoCompleteSearch]);
 }
