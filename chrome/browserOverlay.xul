@@ -4,10 +4,6 @@
 <overlay id="awesomesearch-browser-overlay"
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-  <statusbar id="status-bar">
-    <iframe id="__AS_iframe" width="10" height="10" />
-  </statusbar>
-
   <script type="text/javascript"
     src="chrome://awesomesearch/content/awesomesearch.js"></script>
 

@@ -1,24 +1,3 @@
-/*
-#PopupAutoCompleteRichResult {
-  background-color: red;
-  border: 10px solid green;
-  -moz-binding: url(chrome://awesomesearch/content/urlbarBindings.xml#rich-result);
-}
-
-
-#PopupAutoComplete {
-}
-
-statusbar {
-  color: red !important;
-}
-
-#urlbar {
-  -moz-binding: url(chrome://awesomesearch/content/urlbarBindings.xml#urlbar);
-}
-
-*/
-
 richlistitem[type ~= 'as-google'] > hbox {
   background-color: #cbeaff;
   background-image: url(chrome://awesomesearch/content/background.png);
