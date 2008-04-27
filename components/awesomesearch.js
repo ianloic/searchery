@@ -153,7 +153,6 @@ GoogleAutoCompleteSearch.prototype.handleResponse = function () {
 
 // amazon search
 AmazonAutoCompleteSearch = function() {
-  dump('as-amazon\n');
   };
 AmazonAutoCompleteSearch.prototype = new BaseAutoCompleteSearch();
 AmazonAutoCompleteSearch.prototype.classDescription =
@@ -163,43 +162,33 @@ AmazonAutoCompleteSearch.prototype.contractID =
 AmazonAutoCompleteSearch.prototype.classID =
     Components.ID("4fa91144-0d6e-4914-9ff5-0c297e812e5f");
 AmazonAutoCompleteSearch.prototype.makeRequest = function () {
-  dump('make Request');
   this._xhr.QueryInterface(Ci.nsIXMLHttpRequest);
   this._xhr.open('GET',
                  'http://ecs.amazonaws.com/onca/xml?' +
                  'Service=AWSECommerceService&' +
                  'AWSAccessKeyId=1BTS253HGNBMVK0CP6G2&' +
                  'Operation=ItemSearch&SearchIndex=Blended&' +
+                 'AssociateTag=httpianmckell-20&' +
                  'Version=2008-04-07&Keywords=' +
                  encodeURIComponent(this.searchString), true);
   this._xhr.send(null);
 }
 AmazonAutoCompleteSearch.prototype.handleResponse = function () {
-  dump(this._xhr.responseText)
-  return true;
-/*
-  var data;
-  try {
-    data = JSON.fromString(this._xhr.responseText);
-  } catch (e) {
-    // if we get an error here let's handle it with a smile
-    return false;
-  }
-  for (var i=0; i<data.responseData.results.length;i++) {
-    var result = data.responseData.results[i];
+  var items = this._xhr.responseXML.getElementsByTagName('Item');
+  for (var i=0; i<items.length; i++) {
+    var item = items[i];
     this._results.push({
-      value: result.unescapedUrl,
-      comment: result.titleNoFormatting,
-      image: 'http://www.google.com/favicon.ico',
-      style: (i?'suggesthint':'suggestfirst') + ' awesomesearch as-google'
-    });
+      value: item.getElementsByTagName('DetailPageURL')[0].textContent,
+      comment: item.getElementsByTagName('Title')[0].textContent,
+      image: 'http://www.amazon.com/favicon.ico',
+      style: (i?'suggesthint':'suggestfirst') + ' awesomesearch as-amazon'
+    })
+
   }
   return true;
-*/
 }
 
 function NSGetModule(compMgr, fileSpec) {
-  dump('NSGetModule')
   return XPCOMUtils.generateModule([GoogleAutoCompleteSearch,
                                     AmazonAutoCompleteSearch]);
 }
