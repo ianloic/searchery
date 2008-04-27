@@ -62,7 +62,13 @@ WebSearchAutoCompleteSearch.prototype = {
     try {
       data = JSON.fromString(this._xhr.responseText);
     } catch (e) {
-      dump('error: '+e+'\n');
+      // if we get an error here let's handle it with a smile
+      this.matchCount = 0;
+      this.searchResult = Ci.nsIAutoCompleteResult.RESULT_FAILURE;
+      this._results = [];
+      this._listener.onSearchResult(this, this);
+      this._xhr = null;
+      return;
     }
     this._results = [];
     for (var i=0; i<data.responseData.results.length;i++) {
@@ -71,7 +77,7 @@ WebSearchAutoCompleteSearch.prototype = {
         value: result.unescapedUrl,
         comment: result.titleNoFormatting,
         image: 'http://www.google.com/favicon.ico',
-        style: (i?'suggesthint':'suggestfirst')
+        style: (i?'suggesthint':'suggestfirst') + ' awesomesearch as-google'
       });
     }
     this.matchCount = this._results.length;
@@ -82,7 +88,11 @@ WebSearchAutoCompleteSearch.prototype = {
   },
 
   _onError: function(event) {
-    dump('onError\n')
+    this.matchCount = 0;
+    this.searchResult = Ci.nsIAutoCompleteResult.RESULT_FAILURE;
+    this._results = [];
+    this._listener.onSearchResult(this, this);
+    this._xhr = null;
   },
 
   getCommentAt: function(index) {
