@@ -140,7 +140,7 @@ WebSearchAutoCompleteSearch.prototype = {
 
   // Stop at search
   stopSearch: function() {
-    dump('stopSearch')
+    dump('stopSearch\n')
   },
 
   // XPCOM registration
