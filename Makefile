@@ -1,3 +1,6 @@
+all:
+	@echo '"make run" to test'
+	@echo '"make xpi" to make the xpi'
 run:
 	firefox -no-remote -P awesomesearch -jsconsole
 
