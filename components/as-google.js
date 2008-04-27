@@ -113,6 +113,8 @@ BaseAutoCompleteSearch.prototype = {
       Ci.nsIAutoCompleteResult])
 };
 
+
+// google search
 GoogleAutoCompleteSearch = function() { };
 GoogleAutoCompleteSearch.prototype = new BaseAutoCompleteSearch();
 GoogleAutoCompleteSearch.prototype.classDescription =
@@ -122,6 +124,7 @@ GoogleAutoCompleteSearch.prototype.contractID =
 GoogleAutoCompleteSearch.prototype.classID =
     Components.ID("7ffb0fd2-b67d-48d8-b9d0-7069764cb448");
 GoogleAutoCompleteSearch.prototype.makeRequest = function () {
+  // FIXME: add referrer & api key?
   this._xhr.QueryInterface(Ci.nsIXMLHttpRequest);
   this._xhr.open('GET',
       'http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=' +
@@ -148,6 +151,55 @@ GoogleAutoCompleteSearch.prototype.handleResponse = function () {
   return true;
 }
 
+// amazon search
+AmazonAutoCompleteSearch = function() {
+  dump('as-amazon\n');
+  };
+AmazonAutoCompleteSearch.prototype = new BaseAutoCompleteSearch();
+AmazonAutoCompleteSearch.prototype.classDescription =
+    'AwesomeSearch Amazon AutoComplete';
+AmazonAutoCompleteSearch.prototype.contractID =
+    '@mozilla.org/autocomplete/search;1?name=as-amazon';
+AmazonAutoCompleteSearch.prototype.classID =
+    Components.ID("4fa91144-0d6e-4914-9ff5-0c297e812e5f");
+AmazonAutoCompleteSearch.prototype.makeRequest = function () {
+  dump('make Request');
+  this._xhr.QueryInterface(Ci.nsIXMLHttpRequest);
+  this._xhr.open('GET',
+                 'http://ecs.amazonaws.com/onca/xml?' +
+                 'Service=AWSECommerceService&' +
+                 'AWSAccessKeyId=1BTS253HGNBMVK0CP6G2&' +
+                 'Operation=ItemSearch&SearchIndex=Blended&' +
+                 'Version=2008-04-07&Keywords=' +
+                 encodeURIComponent(this.searchString), true);
+  this._xhr.send(null);
+}
+AmazonAutoCompleteSearch.prototype.handleResponse = function () {
+  dump(this._xhr.responseText)
+  return true;
+/*
+  var data;
+  try {
+    data = JSON.fromString(this._xhr.responseText);
+  } catch (e) {
+    // if we get an error here let's handle it with a smile
+    return false;
+  }
+  for (var i=0; i<data.responseData.results.length;i++) {
+    var result = data.responseData.results[i];
+    this._results.push({
+      value: result.unescapedUrl,
+      comment: result.titleNoFormatting,
+      image: 'http://www.google.com/favicon.ico',
+      style: (i?'suggesthint':'suggestfirst') + ' awesomesearch as-google'
+    });
+  }
+  return true;
+*/
+}
+
 function NSGetModule(compMgr, fileSpec) {
-  return XPCOMUtils.generateModule([GoogleAutoCompleteSearch]);
+  dump('NSGetModule')
+  return XPCOMUtils.generateModule([GoogleAutoCompleteSearch,
+                                    AmazonAutoCompleteSearch]);
 }

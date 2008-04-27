@@ -1,10 +1,10 @@
-richlistitem[type ~= 'as-google'] > hbox {
+richlistitem[type ~= 'awesomesearch'] > hbox {
   background-color: #cbeaff;
   background-image: url(chrome://awesomesearch/content/background.png);
   background-position: bottom right;
   background-repeat: no-repeat;
 }
 
-richlistitem[type ~= 'as-google'][selected="true"] > hbox {
+richlistitem[type ~= 'awesomesearch'][selected="true"] > hbox {
   background-color: transparent;
 }
