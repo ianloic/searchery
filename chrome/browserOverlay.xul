@@ -1,22 +1,14 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://awesomesearch/content/browserOverlay.css" type="text/css"?>
 
-<overlay id="awesomesearch-browser-overlay" 
+<overlay id="awesomesearch-browser-overlay"
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
   <statusbar id="status-bar">
-    <label value="lemmiwinks!" />
     <iframe id="__AS_iframe" width="10" height="10" />
   </statusbar>
 
-  <popupset id="mainPopupSet">
-    <panel id="roboPop">
-      <label value="I AM A ROBOT!!!!"/>
-      <label value="I EAT BABIES!!!!"/>
-    </panel>
-  </popupset>
-
-  <script type="text/javascript" 
+  <script type="text/javascript"
     src="chrome://awesomesearch/content/awesomesearch.js"></script>
 
 </overlay>

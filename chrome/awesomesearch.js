@@ -3,7 +3,7 @@
 var AwesomeSearch = {};
 
 // logging
-AwesomeSearch.consoleService = 
+AwesomeSearch.consoleService =
   Components.classes["@mozilla.org/consoleservice;1"]
   .getService(Components.interfaces.nsIConsoleService);
 AwesomeSearch.log = function(aMessage) {
@@ -24,10 +24,15 @@ AwesomeSearch.windowOnLoad = function() {
       'anonid', 'richlistbox');
 
   // add event handlers as required
-  this.iframe.addEventListener('DOMContentLoaded', 
+  this.iframe.addEventListener('DOMContentLoaded',
       function (event) { AwesomeSearch.iframeOnLoad(event); }, false);
   this.urlbar.addEventListener('keypress',
       function (event) { AwesomeSearch.urlbarOnKeyPress(event); }, false);
+
+  // randoms
+  //alert(this.urlbar.mSearchNames);
+  //alert(this.urlbar.getAttribute('autocompletesearch'));
+  this.urlbar.setAttribute('autocompletesearch', 'history as-google');
 }
 
 // search result richlistbox management
