@@ -130,14 +130,15 @@ BaseAutoCompleteSearch.prototype = {
       Ci.nsIAutoCompleteResult])
 };
 
-GoogleAutoCompleteSearch = {};
+GoogleAutoCompleteSearch = function() { };
 GoogleAutoCompleteSearch.prototype = new BaseAutoCompleteSearch();
-GoogleAutoCompleteSearch.classDescription = 'AwesomeSearch Google AutoComplete';
-GoogleAutoCompleteSearch.contractID =
+GoogleAutoCompleteSearch.prototype.classDescription =
+    'AwesomeSearch Google AutoComplete';
+GoogleAutoCompleteSearch.prototype.contractID =
     '@mozilla.org/autocomplete/search;1?name=as-google';
-GoogleAutoCompleteSearch.classID =
+GoogleAutoCompleteSearch.prototype.classID =
     Components.ID("7ffb0fd2-b67d-48d8-b9d0-7069764cb448");
 
 function NSGetModule(compMgr, fileSpec) {
-  return XPCOMUtils.generateModule([BaseAutoCompleteSearch]);
+  return XPCOMUtils.generateModule([GoogleAutoCompleteSearch]);
 }
