@@ -5,6 +5,6 @@
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
   <script type="text/javascript"
-    src="chrome://awesomesearch/content/awesomesearch.js"></script>
+    src="chrome://awesomesearch/content/browserOverlay.js"></script>
 
 </overlay>

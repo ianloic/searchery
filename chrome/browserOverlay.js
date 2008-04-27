@@ -8,7 +8,7 @@ AwesomeSearch.windowOnLoad = function() {
   this.urlbar = document.getElementById('urlbar');
   this.urlbar.setAttribute('autocompletesearch',
                            this.urlbar.getAttribute('autocompletesearch') +
-                           ' as-amazon');
+                           ' as-amazon as-google');
 }
 
 window.addEventListener('load', function() { AwesomeSearch.windowOnLoad() },
