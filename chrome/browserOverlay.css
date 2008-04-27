@@ -1,8 +1,9 @@
-richlistitem[type ~= 'awesomesearch'] {
+/*richlistitem[type ~= 'awesomesearch'] > hbox:first-child {
   background-image: url(chrome://awesomesearch/content/background.png);
   background-position: bottom right;
   background-repeat: no-repeat;
 }
+*/
 richlistitem[type ~= 'awesomesearch'] > hbox {
   background-color: #cbeaff;
 }
