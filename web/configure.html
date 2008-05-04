@@ -1,0 +1,70 @@
+<html>
+  <head>
+    <title>AwesomeSearch: Configuration</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style type="text/css">
+      fieldset { 
+        border: 1px solid #666; 
+        margin-bottom: 25px;
+      }
+      fieldset legend {
+        font-weight: bold;
+      }
+      fieldset ul {
+        display: block;
+        margin: 0;
+        padding: 0;
+      }
+      fieldset ul li {
+        display: block;
+      }
+    </style>
+    <script src="jquery.js"></script>
+    <script>
+      $(document).ready(function() {
+      });
+    </script>
+  </head>
+  <body>
+    <div id="page">
+      <div id="titles">
+        <div id="title">AwesomeSearch</div>
+        <div id="subtitle">Web search results in your Firefox 3 awesome bar</div>
+      </div>
+      <div id="content">
+        <h1>Configure</h1>
+        <fieldset>
+          <legend>Which search engines would you like in your Awesome 
+            Bar?</legend>
+
+          <ul>
+            <li><input type="checkbox" id="history">
+              <label for="history">Browser History</label></li>
+
+            <li><input type="checkbox" id="as-google">
+            <label for="as-google">Google Web Search</label></li>
+
+            <li><input type="checkbox" id="as-amazon">
+            <label for="as-google">Amazon.com Product Search</label></li>
+          </ul>
+        </fieldset>
+
+        <fieldset>
+          <legend>Options</legend>
+          <ul>
+            <li>
+            <input type="checkbox" id="hide_searchbox">
+            <label for="hide_searchbox">Hide Firefox's search box</label></li>
+
+          </ul>
+        </fieldset>
+      </div>
+      <div id="footer">
+        &copy; 2008 <a href="http://ian.mckellar.org/">Ian McKellar</a>,
+        All Rights Reserved.
+      </div>
+    </div>
+  </body>
+</html>
+
+
