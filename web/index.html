@@ -1,18 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
 <html>
-  <head>
-    <title>AwesomeSearch</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <style type="text/css">
-      #firefox3, #firefox2, #non-firefox {
+<head>
+  <title>AwesomeSearch</title>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <style type="text/css">
+#firefox3, #firefox2, #non-firefox {
         display: none;
       }
       #firefox2, #non-firefox {
         font-weight: bold;
       }
-    </style>
-    <script src="jquery.js"></script>
-    <script>
-      $(document).ready(function() {
+  </style>
+  <script src="jquery.js" type="text/javascript">
+</script>
+  <script type="text/javascript">
+$(document).ready(function() {
         if ($.browser.mozilla) {
           if (parseFloat($.browser.version) >= 1.9) {
             $('#firefox3').fadeIn('slow');
@@ -23,57 +28,67 @@
           $('#non-firefox').fadeIn('slow');
         }
       });
-    </script>
-  </head>
-  <body>
-    <div id="page">
-      <div id="titles">
-        <div id="title">AwesomeSearch</div>
-        <div id="subtitle">Web search results in your Firefox 3 awesome bar</div>
+  </script>
+</head>
+
+<body>
+  <div id="page">
+    <div id="titles">
+      <div id="title">
+        AwesomeSearch
       </div>
-      <div id="content">
-        <div id="welcome">
-          <p>
-          AwesomeSearch is a new Firefox extension which brings web search 
-          into Firefox 3's new <i>Awesome Bar</i>. As you type into your 
-          address bar Firefox will search your history for pages that match
-          and AwesomeSearch will search the web. 
-          </p>
-          <p style="text-align:center">
-          <img src="results.png" width="600" height="263"
-          alt="Search Results">
-          </p>
-          <p>So when you want to find something, just start typing. 
-          If you've been there before it will show up at the top of the list. 
-          If you haven't then you can find it in the web search results that
-          show up in blue.</p>
-          <div id="firefox3">
-            <p style="text-align:center">
-            <a href="awesomesearch.xpi">
-            <img src="install-button.png" width="251" height="59" border="0"
-            alt="Install AwesomeSearch">
-          </a>
-            </p>
-          </div>
-          <div id="firefox2">
-            <p>AwesomeSearch is built on top of new features only available
-              in Firefox 3. To try it out you'll have to 
-              <a href="http://www.mozilla.com/en-US/firefox/all-beta.html">install a beta of Firefox 3</a>
-              first. Don't worry, it's getting pretty stable.
-          </div>
-          <div id="non-firefox">
-            <p>AwesomeSearch is a Firefox extension. It depends on 
-              features that are unique to Firefox. There are no plans to 
-              port it to other web browsers. Why don't you 
-              <a href="http://www.mozilla.com/en-US/firefox/all-beta.html">download Firefox</a>?</p>
-          </div>
-        </div>
-      </div>
-      <div id="footer">
-        &copy; 2008 <a href="http://ian.mckellar.org/">Ian McKellar</a>,
-        All Rights Reserved.
+
+      <div id="subtitle">
+        Web search results in your Firefox 3 awesome bar
       </div>
     </div>
-  </body>
-</html>
 
+    <div id="content">
+      <div id="welcome">
+        <p>AwesomeSearch is a new Firefox extension which brings
+        web search into Firefox 3's new <i>Awesome Bar</i>. As you
+        type into your address bar Firefox will search your history
+        for pages that match and AwesomeSearch will search the
+        web.</p>
+
+        <p style="text-align:center"><img src="results.png" width=
+        "600" height="263" alt="Search Results"></p>
+
+        <p>So when you want to find something, just start typing.
+        If you've been there before it will show up at the top of
+        the list. If you haven't then you can find it in the web
+        search results that show up in blue.</p>
+
+        <div id="firefox3">
+          <p style="text-align:center"><a href=
+          "awesomesearch.xpi"><img src="install-button.png" width=
+          "251" height="59" border="0" alt=
+          "Install AwesomeSearch"></a></p>
+        </div>
+
+        <div id="firefox2">
+          <p>AwesomeSearch is built on top of new features only
+          available in Firefox 3. To try it out you'll have to
+          <a href=
+          "http://www.mozilla.com/en-US/firefox/all-beta.html">install
+          a beta of Firefox 3</a> first. Don't worry, it's getting
+          pretty stable.</p>
+        </div>
+
+        <div id="non-firefox">
+          <p>AwesomeSearch is a Firefox extension. It depends on
+          features that are unique to Firefox. There are no plans
+          to port it to other web browsers. Why don't you <a href=
+          "http://www.mozilla.com/en-US/firefox/all-beta.html">download
+          Firefox</a>?</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="footer">
+      © 2008 <a href="http://ian.mckellar.org/">Ian McKellar</a>,
+      All Rights Reserved.
+    </div>
+  </div>
+</body>
+</html>

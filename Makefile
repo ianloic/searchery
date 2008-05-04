@@ -10,3 +10,8 @@ xpi:
 	rsync -a --exclude-from .gitignore --exclude-from xpi-ignore . .xpistage
 	cd .xpistage && zip -r ../web/awesomesearch.xpi *
 	rm -rf .xpistage
+
+HTML=web/index.html web/configure.html
+
+tidy:
+	tidy -indent -quiet -utf8 -modify --tidy-mark false $(HTML)

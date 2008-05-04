@@ -1,9 +1,13 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
 <html>
-  <head>
-    <title>AwesomeSearch: Configuration</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <style type="text/css">
-      fieldset { 
+<head>
+  <title>AwesomeSearch: Configuration</title>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <style type="text/css">
+fieldset { 
         border: 1px solid #666; 
         margin-bottom: 25px;
       }
@@ -18,53 +22,61 @@
       fieldset ul li {
         display: block;
       }
-    </style>
-    <script src="jquery.js"></script>
-    <script>
-      $(document).ready(function() {
+  </style>
+  <script src="jquery.js" type="text/javascript">
+</script>
+  <script type="text/javascript">
+$(document).ready(function() {
       });
-    </script>
-  </head>
-  <body>
-    <div id="page">
-      <div id="titles">
-        <div id="title">AwesomeSearch</div>
-        <div id="subtitle">Web search results in your Firefox 3 awesome bar</div>
+  </script>
+</head>
+
+<body>
+  <div id="page">
+    <div id="titles">
+      <div id="title">
+        AwesomeSearch
       </div>
-      <div id="content">
-        <h1>Configure</h1>
-        <fieldset>
-          <legend>Which search engines would you like in your Awesome 
-            Bar?</legend>
 
-          <ul>
-            <li><input type="checkbox" id="history">
-              <label for="history">Browser History</label></li>
-
-            <li><input type="checkbox" id="as-google">
-            <label for="as-google">Google Web Search</label></li>
-
-            <li><input type="checkbox" id="as-amazon">
-            <label for="as-google">Amazon.com Product Search</label></li>
-          </ul>
-        </fieldset>
-
-        <fieldset>
-          <legend>Options</legend>
-          <ul>
-            <li>
-            <input type="checkbox" id="hide_searchbox">
-            <label for="hide_searchbox">Hide Firefox's search box</label></li>
-
-          </ul>
-        </fieldset>
-      </div>
-      <div id="footer">
-        &copy; 2008 <a href="http://ian.mckellar.org/">Ian McKellar</a>,
-        All Rights Reserved.
+      <div id="subtitle">
+        Web search results in your Firefox 3 awesome bar
       </div>
     </div>
-  </body>
+
+    <div id="content">
+      <h1>Configure</h1>
+
+      <fieldset>
+        <legend>Which search engines would you like in your Awesome
+        Bar?</legend>
+
+        <ul>
+          <li><input type="checkbox" id="history"> <label for=
+          "history">Browser History</label></li>
+
+          <li><input type="checkbox" id="as-google"> <label for=
+          "as-google">Google Web Search</label></li>
+
+          <li><input type="checkbox" id="as-amazon"> <label for=
+          "as-google">Amazon.com Product Search</label></li>
+        </ul>
+      </fieldset>
+
+      <fieldset>
+        <legend>Options</legend>
+
+        <ul>
+          <li><input type="checkbox" id="hide_searchbox">
+          <label for="hide_searchbox">Hide Firefox's search
+          box</label></li>
+        </ul>
+      </fieldset>
+    </div>
+
+    <div id="footer">
+      © 2008 <a href="http://ian.mckellar.org/">Ian McKellar</a>,
+      All Rights Reserved.
+    </div>
+  </div>
+</body>
 </html>
-
-
