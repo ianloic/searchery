@@ -26,7 +26,10 @@ fieldset {
   <script src="jquery.js" type="text/javascript">
 </script>
   <script type="text/javascript">
-$(document).ready(function() {
+    $(document).ready(function() {
+        var e = document.createEvent('Event');
+        e.initEvent('as-configuration-get', true, true);
+        window.dispatchEvent(e);
       });
   </script>
 </head>
