@@ -9,6 +9,10 @@ Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 
 // Implements nsIAutoCompleteSearch
 function SearchBase() {}
+SearchBase.prototype.classDescription = 'AwesomeSearch Base Class';
+SearchBase.prototype.contractID = '@ianloic.com/awesomesearch/base;1';
+SearchBase.prototype.classID = 
+    Components.ID("644c1c57-5348-40b2-a78d-4c9df262845d");
 
 // start a search
 SearchBase.prototype.startSearch = 
