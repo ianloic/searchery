@@ -1,3 +1,6 @@
+// only export SearchBase
+var EXPORTED_SYMBOLS = ['SearchBase'];
+
 // these constants make everything better
 const Cc = Components.classes;
 const Ci = Components.interfaces;
@@ -7,16 +10,13 @@ const Cu = Components.utils;
 // import the XPCOM helper
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 
-// Implements nsIAutoCompleteSearch
-function SearchBase() {}
-SearchBase.prototype.classDescription = 'AwesomeSearch Base Class';
-SearchBase.prototype.contractID = '@ianloic.com/awesomesearch/base;1';
-SearchBase.prototype.classID = 
-    Components.ID("644c1c57-5348-40b2-a78d-4c9df262845d");
+function SearchBase() { }
+SearchBase.prototype.QueryInterface = XPCOMUtils.generateQI(
+    [Ci.nsIAutoCompleteSearch, Ci.nsIAutoCompleteResult, Ci.ilISearchBase]);
 
 // start a search
-SearchBase.prototype.startSearch = 
-function SearchBase_startSearch(searchString, searchParam, previousResult, 
+SearchBase.prototype.doStartSearch = 
+function SearchBase_doStartSearch(searchString, searchParam, previousResult, 
     listener) {
   // set state
   this.searchString = searchString;
@@ -27,6 +27,12 @@ function SearchBase_startSearch(searchString, searchParam, previousResult,
 
   // save off the listener
   this._listener = listener;
+}
+SearchBase.prototype.startSearch = 
+function SearchBase_startSearch(searchString, searchParam, previousResult, 
+    listener) {
+  return this.doStartSearch(searchString, searchParam, previousResult, 
+      listener);
 }
 
 // Stop at search
@@ -97,13 +103,4 @@ function SearchBase_notifyListener(aSucceeded) {
     this._results = [];
     this._listener.onSearchResult(this, this);
   }
-}
-
-// XPCOM registration
-SearchBase.prototype.QueryInterface = XPCOMUtils.generateQI(
-    [Ci.nsIAutoCompleteSearch, Ci.nsIAutoCompleteResult, Ci.ilISearchBase]);
-
-
-function NSGetModule(compMgr, fileSpec) {
-  return XPCOMUtils.generateModule([SearchBase]);
 }
