@@ -15,7 +15,7 @@ Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 
 function SearchBase() { }
 SearchBase.prototype.QueryInterface = XPCOMUtils.generateQI(
-    [Ci.nsIAutoCompleteSearch, Ci.nsIAutoCompleteResult, Ci.ilISearchBase]);
+    [Ci.nsIAutoCompleteSearch, Ci.nsIAutoCompleteResult]);
 
 // start a search
 SearchBase.prototype.doStartSearch = 
@@ -182,7 +182,7 @@ GoogleSearch.prototype.classID =
     Components.ID("7ffb0fd2-b67d-48d8-b9d0-7069764cb448");
 GoogleSearch.prototype.QueryInterface = 
     XPCOMUtils.generateQI([Ci.nsIAutoCompleteSearch, 
-        Ci.nsIAutoCompleteResult, Ci.ilISearchBase]);
+        Ci.nsIAutoCompleteResult]);
 GoogleSearch.prototype.makeRequest = function () {
   // FIXME: add referrer & api key?
   this._xhr.QueryInterface(Ci.nsIXMLHttpRequest);
@@ -212,9 +212,10 @@ GoogleSearch.prototype.handleResponse = function () {
 }
 
 
-// amazon search
-AmazonSearch = function() {
-  };
+////////////////////////////////////////////////////////
+// Amazon search
+
+AmazonSearch = function() { };
 AmazonSearch.prototype = new WebSearchBase();
 AmazonSearch.prototype.classDescription =
     'AwesomeSearch Amazon AutoComplete';
@@ -235,6 +236,9 @@ AmazonSearch.prototype.makeRequest = function () {
   this._xhr.send(null);
 }
 AmazonSearch.prototype.handleResponse = function () {
+  if (this._xhr.responseXML == null) {
+    dump('eek! no responseXML for:\n'+this._xhr.responseText+'\n');
+  }
   var items = this._xhr.responseXML.getElementsByTagName('Item');
   for (var i=0; i<items.length; i++) {
     var item = items[i];
@@ -249,7 +253,36 @@ AmazonSearch.prototype.handleResponse = function () {
   return true;
 }
 
+////////////////////////////////////////////////////////
+// OpenSearch
+
+OpenSearch = function() { 
+  this._searchService = Cc['@mozilla.org/browser/search-service;1']
+    .getService(Ci.nsIBrowserSearchService);
+};
+OpenSearch.prototype = new SearchBase();
+OpenSearch.prototype.classDescription =
+    'OpenSearch AutoComplete';
+OpenSearch.prototype.contractID =
+    '@mozilla.org/autocomplete/search;1?name=as-opensearch';
+OpenSearch.prototype.classID =
+    Components.ID('9462837b-6ab3-439e-b0a8-4e10ac6430fb');
+OpenSearch.prototype.startSearch =
+function OpenSearch_startSearch(searchString, searchParam, previousResult, 
+    listener) {
+  this.doStartSearch(searchString, searchParam, previousResult, listener);
+  this.clearResults();
+  var engines = this._searchService.getVisibleEngines({ });
+  for (var i=0; i<engines.length; i++) {
+    var submission = engines[i].getSubmission(searchString, 'text/html');
+    this.addResult(submission.uri.spec, 
+        'Search for "'+searchString+'" on '+engines[i].name, 
+        engines[i].iconURI.spec,
+        'suggesthint awesomesearch as-opensearch');
+  }
+  this.notifyListener(true);
+}
+
 function NSGetModule(compMgr, fileSpec) {
-  return XPCOMUtils.generateModule([GoogleSearch,
-                                    AmazonSearch]);
+  return XPCOMUtils.generateModule([GoogleSearch, AmazonSearch, OpenSearch]);
 }
