@@ -6,10 +6,11 @@
   <Description rdf:about="urn:mozilla:install-manifest">
     <em:id>awesomesearch@ianloic.com</em:id>
     <em:name>AwesomeSearch</em:name>
-    <em:version>0.0.1</em:version>
+    <em:version>0.0.2</em:version>
     <em:creator>Ian McKellar &lt;ian@mckellar.org&gt;</em:creator>
     <em:description>Bring web search into the AwesomeBar</em:description>
     <em:homepageURL>http://ian.mckellar.org/</em:homepageURL>
+    <em:updateURL>https://s3.amazonaws.com/static.ianloic.com/awesomesearch/update.rdf</em:updateURL>
     <em:targetApplication>
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
