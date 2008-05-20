@@ -164,15 +164,7 @@ const GOOGLE_API_REFERRER = 'http://ianloic.com/';
 Cu.import("resource://gre/modules/JSON.jsm");
 
 // google search
-GoogleSearch = function() { 
-  dump("registered, let's try to import stuff\n");
-  try {
-    Cu.import("resource://awesomesearch/modules/web-search-base.jsm");
-  } catch(e) {
-    dump('exception: '+e+'\n');
-  }
-  dump("imported, ok?\n");
-};
+GoogleSearch = function() { };
 GoogleSearch.prototype = new WebSearchBase();
 GoogleSearch.prototype.classDescription =
     'AwesomeSearch Google AutoComplete';
