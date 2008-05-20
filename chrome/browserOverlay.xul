@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <!--
   Copyright © 2008 Ian McKellar <ian@mckellar.org>
 
@@ -17,7 +18,6 @@
   along with AwesomeSearch.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<?xml version="1.0"?>
 <?xml-stylesheet href="chrome://awesomesearch/content/browserOverlay.css" type="text/css"?>
 
 <overlay id="awesomesearch-browser-overlay"
