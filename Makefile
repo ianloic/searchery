@@ -1,13 +1,14 @@
 XPIDL=/usr/lib/xulrunner-1.9b5/xpidl -I/usr/share/idl/xulrunner-1.9b5/stable/
 
 COMPONENTS=$(shell echo components/*.js)
+CHROMEFILES=$(shell find chrome/)
 
 all: web/awesomesearch.xpi
 
 run: web/awesomesearch.xpi
 	firefox -no-remote -P awesomesearch -jsconsole
 
-web/awesomesearch.xpi: $(COMPONENTS)
+web/awesomesearch.xpi: $(COMPONENTS) $(CHROMEFILES) chrome.manifest install.rdf
 	rm -rf .xpistage web/awesomesearch.xpi
 	mkdir -p .xpistage
 	rsync -a --exclude-from .gitignore --exclude-from xpi-ignore . .xpistage
