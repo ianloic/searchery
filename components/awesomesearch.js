@@ -64,7 +64,8 @@ function SearchBase_getStyleAt(index) {
   if (!this._results || index >= this._results.length) {
     return null;
   }
-  return this._results[index].style;
+  return (index?'suggesthint':'suggestfirst') + ' awesomesearch ' +
+    this._results[index].style;
 }
 
 SearchBase.prototype.getValueAt =
@@ -86,12 +87,13 @@ function SearchBase_clearResults() {
 
 SearchBase.prototype.addResult =
 function SearchBase_addResult(aValue, aComment, aImage, aStyle) {
-  this._results.push({
+  var result = {
     value: aValue,
     comment: aComment,
     image: aImage,
     style: aStyle
-  });
+  };
+  this._results.push(result);
 },
 
 SearchBase.prototype.notifyListener =
@@ -123,6 +125,10 @@ WebSearchBase.prototype = new SearchBase();
 WebSearchBase.prototype.startSearch =
 function WebSearchBase_startSearch(searchString, searchParam, previousResult, 
     listener) {
+  if (this._xhr) {
+    this._xhr.abort();
+  }
+
   this.doStartSearch(searchString, searchParam, previousResult, listener);
 
   // create an XMLHttpRequest object to talk to the server
@@ -142,13 +148,17 @@ function WebSearchBase_startSearch(searchString, searchParam, previousResult,
 
 WebSearchBase.prototype.onLoad = 
 function WebSearchBase_onLoad(event) {
-  this.notifyListener(this.handleResponse());
-  this._xhr = null;
+  if (this._xhr.readyState == 4) {
+    this.notifyListener(this.handleResponse());
+    this._xhr.abort();
+    this._xhr = null;
+  }
 }
 
 WebSearchBase.prototype.onError = 
 function WebSearchBase_onError(event) {
   this.notifyListener(false);
+  this._xhr.abort();
   this._xhr = null;
 }
 
@@ -193,12 +203,8 @@ GoogleSearch.prototype.handleResponse = function () {
   }
   for (var i=0; i<data.responseData.results.length;i++) {
     var result = data.responseData.results[i];
-    this._results.push({
-      value: result.unescapedUrl,
-      comment: result.titleNoFormatting,
-      image: 'http://www.google.com/favicon.ico',
-      style: (i?'suggesthint':'suggestfirst') + ' awesomesearch as-google'
-    });
+    this.addResult(result.unescapedUrl, result.titleNoFormatting, 
+        'http://www.google.com/favicon.ico', 'as-google');
   }
   return true;
 }
@@ -229,18 +235,14 @@ AmazonSearch.prototype.makeRequest = function () {
 }
 AmazonSearch.prototype.handleResponse = function () {
   if (this._xhr.responseXML == null) {
-    dump('eek! no responseXML for:\n'+this._xhr.responseText+'\n');
+    return false;
   }
   var items = this._xhr.responseXML.getElementsByTagName('Item');
   for (var i=0; i<items.length; i++) {
     var item = items[i];
-    this._results.push({
-      value: item.getElementsByTagName('DetailPageURL')[0].textContent,
-      comment: item.getElementsByTagName('Title')[0].textContent,
-      image: 'http://www.amazon.com/favicon.ico',
-      style: (i?'suggesthint':'suggestfirst') + ' awesomesearch as-amazon'
-    })
-
+    this.addResult(item.getElementsByTagName('DetailPageURL')[0].textContent, 
+        item.getElementsByTagName('Title')[0].textContent,
+        'http://www.amazon.com/favicon.ico', 'as-amazon');
   }
   return true;
 }
