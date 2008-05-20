@@ -4,30 +4,186 @@ const Ci = Components.interfaces;
 const Cr = Components.results;
 const Cu = Components.utils;
 
+// import the XPCOM helper
+Cu.import("resource://gre/modules/XPCOMUtils.jsm");
+
+
+
+
+////////////////////////////////////////////////////////
+// SearchBase: base class for all autocomplete searches
+
+function SearchBase() { }
+SearchBase.prototype.QueryInterface = XPCOMUtils.generateQI(
+    [Ci.nsIAutoCompleteSearch, Ci.nsIAutoCompleteResult, Ci.ilISearchBase]);
+
+// start a search
+SearchBase.prototype.doStartSearch = 
+function SearchBase_doStartSearch(searchString, searchParam, previousResult, 
+    listener) {
+  // set state
+  this.searchString = searchString;
+  this.defaultIndex = 0;
+  this.matchCount = 0;
+  this.searchResult = 0;
+  this._results = []
+
+  // save off the listener
+  this._listener = listener;
+}
+SearchBase.prototype.startSearch = 
+function SearchBase_startSearch(searchString, searchParam, previousResult, 
+    listener) {
+  return this.doStartSearch(searchString, searchParam, previousResult, 
+      listener);
+}
+
+// Stop at search
+SearchBase.prototype.stopSearch = 
+function SearchBase_stopSearch() {
+}
+
+SearchBase.prototype.getCommentAt =
+function SearchBase_getCommentAt(index) {
+  if (!this._results || index >= this._results.length) {
+    return null;
+  }
+  return this._results[index].comment;
+}
+
+SearchBase.prototype.getImageAt =
+function SearchBase_getImageAt(index) {
+  if (!this._results || index >= this._results.length) {
+    return null;
+  }
+  return this._results[index].image;
+}
+
+SearchBase.prototype.getStyleAt =
+function SearchBase_getStyleAt(index) {
+  if (!this._results || index >= this._results.length) {
+    return null;
+  }
+  return this._results[index].style;
+}
+
+SearchBase.prototype.getValueAt =
+function SearchBase_getValueAt(index) {
+  if (!this._results || index >= this._results.length) {
+    return null;
+  }
+  return this._results[index].value;
+},
+
+SearchBase.prototype.removeValueAt =
+function SearchBase_removeValueAt(index, removeFromDb) {
+}
+
+SearchBase.prototype.clearResults =
+function SearchBase_clearResults() {
+  this._results = [];
+},
+
+SearchBase.prototype.addResult =
+function SearchBase_addResult(aValue, aComment, aImage, aStyle) {
+  this._results.push({
+    value: aValue,
+    comment: aComment,
+    image: aImage,
+    style: aStyle
+  });
+},
+
+SearchBase.prototype.notifyListener =
+function SearchBase_notifyListener(aSucceeded) {
+  if (aSucceeded) {
+    this.matchCount = this._results.length;
+    this.searchResult = Ci.nsIAutoCompleteResult.RESULT_SUCCESS;
+    this._listener.onSearchResult(this, this);
+  } else {
+    this.matchCount = 0;
+    this.searchResult = Ci.nsIAutoCompleteResult.RESULT_FAILURE;
+    this._results = [];
+    this._listener.onSearchResult(this, this);
+  }
+}
+
+
+
+
+
+
+////////////////////////////////////////////////////////
+// WebSearchBase: a base class for all web searches
+
+function WebSearchBase() { 
+}
+WebSearchBase.prototype = new SearchBase();
+
+WebSearchBase.prototype.startSearch =
+function WebSearchBase_startSearch(searchString, searchParam, previousResult, 
+    listener) {
+  this.doStartSearch(searchString, searchParam, previousResult, listener);
+
+  // create an XMLHttpRequest object to talk to the server
+  this._xhr = Cc["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance();
+
+  // add event handlers
+  this._xhr.QueryInterface(Ci.nsIDOMEventTarget);
+  var self = this;
+  this._xhr.addEventListener("load", function(evt) { self.onLoad(evt); },
+                             false);
+  this._xhr.addEventListener("error", function(evt) { self.onError(evt); },
+                             false);
+
+  // make the request
+  this.makeRequest();
+}
+
+WebSearchBase.prototype.onLoad = 
+function WebSearchBase_onLoad(event) {
+  this.notifyListener(this.handleResponse());
+  this._xhr = null;
+}
+
+WebSearchBase.prototype.onError = 
+function WebSearchBase_onError(event) {
+  this.notifyListener(false);
+  this._xhr = null;
+}
+
+
+
+////////////////////////////////////////////////////////
+// Google search
+
 const GOOGLE_API_KEY = 'ABQIAAAAB5EMLNLcl9tsZ4hqbawAfxRs0Gcr6QwT8A5mowOxfafuDSDZ8xRyV6raPQ50DzlWqr9-QcqYSI5gOg';
 const GOOGLE_API_REFERRER = 'http://ianloic.com/';
 
-// import the XPCOM helper
-Cu.import("resource://gre/modules/XPCOMUtils.jsm");
-// import JSON utils
+// import JSON helper
 Cu.import("resource://gre/modules/JSON.jsm");
 
-
-// Implements nsIAutoCompleteSearch
-function BaseAutoCompleteSearch() {
-}
-
 // google search
-GoogleAutoCompleteSearch = function() { 
+GoogleSearch = function() { 
+  dump("registered, let's try to import stuff\n");
+  try {
+    Cu.import("resource://awesomesearch/modules/web-search-base.jsm");
+  } catch(e) {
+    dump('exception: '+e+'\n');
+  }
+  dump("imported, ok?\n");
 };
-GoogleAutoCompleteSearch.prototype = new BaseAutoCompleteSearch();
-GoogleAutoCompleteSearch.prototype.classDescription =
+GoogleSearch.prototype = new WebSearchBase();
+GoogleSearch.prototype.classDescription =
     'AwesomeSearch Google AutoComplete';
-GoogleAutoCompleteSearch.prototype.contractID =
+GoogleSearch.prototype.contractID =
     '@mozilla.org/autocomplete/search;1?name=as-google';
-GoogleAutoCompleteSearch.prototype.classID =
+GoogleSearch.prototype.classID =
     Components.ID("7ffb0fd2-b67d-48d8-b9d0-7069764cb448");
-GoogleAutoCompleteSearch.prototype.makeRequest = function () {
+GoogleSearch.prototype.QueryInterface = 
+    XPCOMUtils.generateQI([Ci.nsIAutoCompleteSearch, 
+        Ci.nsIAutoCompleteResult, Ci.ilISearchBase]);
+GoogleSearch.prototype.makeRequest = function () {
   // FIXME: add referrer & api key?
   this._xhr.QueryInterface(Ci.nsIXMLHttpRequest);
   this._xhr.open('GET',
@@ -35,7 +191,7 @@ GoogleAutoCompleteSearch.prototype.makeRequest = function () {
       encodeURIComponent(this.searchString), true);
   this._xhr.send(null);
 }
-GoogleAutoCompleteSearch.prototype.handleResponse = function () {
+GoogleSearch.prototype.handleResponse = function () {
   var data;
   try {
     data = JSON.fromString(this._xhr.responseText);
@@ -55,17 +211,18 @@ GoogleAutoCompleteSearch.prototype.handleResponse = function () {
   return true;
 }
 
+
 // amazon search
-AmazonAutoCompleteSearch = function() {
+AmazonSearch = function() {
   };
-AmazonAutoCompleteSearch.prototype = new BaseAutoCompleteSearch();
-AmazonAutoCompleteSearch.prototype.classDescription =
+AmazonSearch.prototype = new WebSearchBase();
+AmazonSearch.prototype.classDescription =
     'AwesomeSearch Amazon AutoComplete';
-AmazonAutoCompleteSearch.prototype.contractID =
+AmazonSearch.prototype.contractID =
     '@mozilla.org/autocomplete/search;1?name=as-amazon';
-AmazonAutoCompleteSearch.prototype.classID =
+AmazonSearch.prototype.classID =
     Components.ID("4fa91144-0d6e-4914-9ff5-0c297e812e5f");
-AmazonAutoCompleteSearch.prototype.makeRequest = function () {
+AmazonSearch.prototype.makeRequest = function () {
   this._xhr.QueryInterface(Ci.nsIXMLHttpRequest);
   this._xhr.open('GET',
                  'http://ecs.amazonaws.com/onca/xml?' +
@@ -77,7 +234,7 @@ AmazonAutoCompleteSearch.prototype.makeRequest = function () {
                  encodeURIComponent(this.searchString), true);
   this._xhr.send(null);
 }
-AmazonAutoCompleteSearch.prototype.handleResponse = function () {
+AmazonSearch.prototype.handleResponse = function () {
   var items = this._xhr.responseXML.getElementsByTagName('Item');
   for (var i=0; i<items.length; i++) {
     var item = items[i];
@@ -93,6 +250,6 @@ AmazonAutoCompleteSearch.prototype.handleResponse = function () {
 }
 
 function NSGetModule(compMgr, fileSpec) {
-  return XPCOMUtils.generateModule([GoogleAutoCompleteSearch,
-                                    AmazonAutoCompleteSearch]);
+  return XPCOMUtils.generateModule([GoogleSearch,
+                                    AmazonSearch]);
 }

@@ -1,3 +1,2 @@
 content awesomesearch chrome/ xpcnativewrappers=no
-resource awesomesearch ./
 overlay chrome://browser/content/browser.xul chrome://awesomesearch/content/browserOverlay.xul
