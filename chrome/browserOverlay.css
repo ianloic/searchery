@@ -30,3 +30,8 @@ richlistitem[type ~= 'awesomesearch'] > hbox {
 richlistitem[type ~= 'awesomesearch'][selected="true"] > hbox {
   background-color: transparent;
 }
+
+#urlbar-icons > #awesomesearch-icon {
+  list-style-image:url(chrome://awesomesearch/content/magnifier.png);
+  visibility:visible !important;
+}

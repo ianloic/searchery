@@ -26,4 +26,9 @@
   <script type="text/javascript"
     src="chrome://awesomesearch/content/browserOverlay.js"></script>
 
+  <hbox id="urlbar-icons">
+    <image class="urlbar-icon" id="awesomesearch-icon" 
+      insertbefore="go-button"/>
+  </hbox>
+
 </overlay>

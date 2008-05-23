@@ -3,6 +3,8 @@ VERSION=0.0.2
 XPIFILE=web/awesomesearch-$(VERSION).xpi
 
 XPIDL=/usr/lib/xulrunner-1.9b5/xpidl -I/usr/share/idl/xulrunner-1.9b5/stable/
+#FIREFOX=$(HOME)/Software/firefox/firefox
+FIREFOX=firefox
 
 COMPONENTS=$(shell echo components/*.js)
 CHROMEFILES=$(shell find chrome/)
@@ -10,7 +12,7 @@ CHROMEFILES=$(shell find chrome/)
 all: $(XPIFILE)
 
 run: all
-	firefox -no-remote -P awesomesearch -jsconsole
+	$(FIREFOX) -no-remote -P awesomesearch -jsconsole
 
 $(XPIFILE): $(COMPONENTS) $(CHROMEFILES) chrome.manifest install.rdf .gitignore xpi-ignore
 	rm -rf .xpistage $(XPIFILE)
