@@ -26,6 +26,27 @@ AwesomeSearch.windowOnLoad = function() {
   this.urlbar.setAttribute('autocompletesearch', 
       'history as-amazon as-google as-opensearch');
 
+  var hide_searchbox_pref = 
+    Application.prefs.get('awesomesearch.hide-searchbox');
+
+  // hide the searchbar if appropriate
+  function show_or_hide_searchbox() {
+    var searchbox = document.getElementById('search-container');
+    if (searchbox) {
+      if (hide_searchbox_pref.value) {
+        searchbox.setAttribute('style', 'display:none');
+      } else {
+        searchbox.removeAttribute('style');
+      }
+    }
+  }
+  show_or_hide_searchbox();
+
+  // add an event listener for pref changes
+  hide_searchbox_pref.events.addListener('change', function (event) {
+      show_or_hide_searchbox();
+      });
+
   // add handlers for the menu
   this.menu = document.getElementById('awesomesearch-menu');
 
@@ -50,6 +71,16 @@ AwesomeSearch.windowOnLoad = function() {
   // hook up the "manage" menu item
   var manage_item = document.getElementById('as-manage-search-engines');
   manage_item.addEventListener('command', AwesomeSearch.openManager, false);
+
+  // trick the Firefox browser search functionality into using the urlbar
+  // when we've hidden the search bar
+  BrowserSearch.__defineGetter__('searchBar', function() {
+      return hide_searchbox_pref.value ? 
+        AwesomeSearch.urlbar : document.getElementById('searchbar') 
+        })
+
+  // wire up the 'searchButton' property to our ui
+  this.urlbar.searchButton = document.getElementById('awesomesearch-icon');
 }
 
 AwesomeSearch.openManager = function(event) {

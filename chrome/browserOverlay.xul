@@ -32,11 +32,15 @@
         type="checkbox" boolpref="awesomesearch.engines-enabled"/>
       <menuitem id="as-manage-search-engines" label="Manage search engines..."/>
       <menuseparator />
-      <menuitem id="as-engine-google" label="Enable Google web search results" 
+      <menuitem id="as-engine-google" label="Show Google web search results" 
         type="checkbox" boolpref="awesomesearch.engine.google"/>
       <menuitem id="as-engine-amazon" 
-        label="Enable Amazon product search results" type="checkbox" 
+        label="Show Amazon product search results" type="checkbox" 
         boolpref="awesomesearch.engine.amazon"/>
+      <menuseparator />
+      <menuitem id="as-hide-searchbox"
+        label="Hide the legacy search box" type="checkbox"
+        boolpref="awesomesearch.hide-searchbox"/>
     </menupopup>
   </popupset>
 

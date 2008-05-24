@@ -35,3 +35,8 @@ richlistitem[type ~= 'awesomesearch'][selected="true"] > hbox {
   list-style-image: url(chrome://awesomesearch/content/magnifier.png);
   visibility: visible !important;
 }
+
+#urlbar-icons > #awesomesearch-icon[addengines='true'] {
+  list-style-image: url(chrome://awesomesearch/content/magnifier_zoom_in.png);
+  visibility: visible !important;
+}
