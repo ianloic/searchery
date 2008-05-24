@@ -53,19 +53,19 @@ AwesomeSearch.windowOnLoad = function() {
 }
 
 AwesomeSearch.openManager = function(event) {
-  var wm = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+  var wm = Components.classes['@mozilla.org/appshell/window-mediator;1']
     .getService(Components.interfaces.nsIWindowMediator);
 
-  var win = wm.getMostRecentWindow("Browser:SearchManager");
+  var win = wm.getMostRecentWindow('Browser:SearchManager');
   if (win) {
     win.focus()
   } else {
     setTimeout(function () {
-      openDialog("chrome://browser/content/search/engineManager.xul",
-                 "_blank", "chrome,dialog,modal,centerscreen");
+      openDialog('chrome://browser/content/search/engineManager.xul',
+                 '_blank', 'chrome,dialog,modal,centerscreen');
     }, 0);
   }
 }
 
-window.addEventListener('load', function() { AwesomeSearch.windowOnLoad() },
-                        false);
+window.addEventListener('load', function() { AwesomeSearch.windowOnLoad() }, 
+    false);
