@@ -81,6 +81,36 @@ AwesomeSearch.windowOnLoad = function() {
 
   // wire up the 'searchButton' property to our ui
   this.urlbar.searchButton = document.getElementById('awesomesearch-icon');
+
+  // onpopupshowing event for the menu
+  this.menu.addEventListener('popupshowing', function(event) {
+      // clear out old 'add engine' menuitems
+      var item = AwesomeSearch.menu.firstChild;
+      while (item) {
+        if (item.hasAttribute('addengine')) {
+          var next = item.nextSibling;
+          AwesomeSearch.menu.removeChild(item);
+          item = next;
+        } else {
+          item = item.nextSibling;
+        }
+      }
+
+      // add them if we need to
+
+      var engines = getBrowser().mCurrentBrowser.engines;
+      if (engines && engines.length > 0) {
+        var separator = document.createElement('menuseparator');
+        separator.setAttribute('addengine', 'true');
+        AwesomeSearch.menu.appendChild(separator);
+        for (var i=0; i<engines.length; i++) {
+          var menuitem = document.createElement('menuitem');
+          menuitem.setAttribute('addengine', 'true');
+          menuitem.setAttribute('label', 'Add "'+engines[i].title+'"...');
+          AwesomeSearch.menu.appendChild(menuitem);
+        }
+      }
+      }, false);
 }
 
 AwesomeSearch.openManager = function(event) {
