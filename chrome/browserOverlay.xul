@@ -26,9 +26,24 @@
   <script type="text/javascript"
     src="chrome://awesomesearch/content/browserOverlay.js"></script>
 
+  <popupset>
+    <menupopup id="awesomesearch-menu">
+      <menuitem id="as-enable-search-engines" label="Enable search engines" 
+        type="checkbox" boolpref="awesomesearch.engines-enabled"/>
+      <menuitem id="as-manage-search-engines" label="Manage search engines..."/>
+      <menuseparator />
+      <menuitem id="as-engine-google" label="Enable Google web search results" 
+        type="checkbox" boolpref="awesomesearch.engine.google"/>
+      <menuitem id="as-engine-amazon" 
+        label="Enable Amazon product search results" type="checkbox" 
+        boolpref="awesomesearch.engine.amazon"/>
+    </menupopup>
+  </popupset>
+
   <hbox id="urlbar-icons">
     <image class="urlbar-icon" id="awesomesearch-icon" 
-      insertbefore="go-button"/>
+      context="awesomesearch-menu" popup="awesomesearch-menu"
+      insertbefore="go-button" />
   </hbox>
 
 </overlay>

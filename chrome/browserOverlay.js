@@ -23,9 +23,29 @@ var AwesomeSearch = {};
 AwesomeSearch.windowOnLoad = function() {
   // add ourselves to the urlbar autocomplete list
   this.urlbar = document.getElementById('urlbar');
-  this.urlbar.setAttribute('autocompletesearch',
-                           this.urlbar.getAttribute('autocompletesearch') +
-                           ' as-amazon as-google as-opensearch');
+  this.urlbar.setAttribute('autocompletesearch', 
+      'history as-amazon as-google as-opensearch');
+
+  // add handlers for the menu
+  this.menu = document.getElementById('awesomesearch-menu');
+
+  // automatically handle boolean prefs on checkbox menu items
+  var item = this.menu.firstChild;
+  while (item) {
+    if (item.hasAttribute('boolpref')) {
+      // set the checked state to the pref value
+      if (Application.prefs.getValue(item.getAttribute('boolpref'), false)) {
+        item.setAttribute('checked', true);
+      }
+      item.addEventListener('command', function(event) {
+          var item = event.target;
+          // set the prev value to the checked state
+          Application.prefs.setValue(item.getAttribute('boolpref'),
+            item.hasAttribute('checked'));
+      }, false);
+    }
+    item = item.nextSibling;
+  }
 }
 
 window.addEventListener('load', function() { AwesomeSearch.windowOnLoad() },
