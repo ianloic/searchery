@@ -111,6 +111,9 @@ AwesomeSearch.windowOnLoad = function() {
         }
       }
       }, false);
+
+  // we're putting more in the autocomplete - double its size
+  this.urlbar.maxRows *= 2;
 }
 
 AwesomeSearch.openManager = function(event) {
