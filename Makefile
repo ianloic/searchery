@@ -1,6 +1,6 @@
-VERSION=0.0.2
+VERSION=0.1.0
 
-XPIFILE=web/awesomesearch-$(VERSION).xpi
+XPIFILE=web/searchery-$(VERSION).xpi
 
 XPIDL=/usr/lib/xulrunner-1.9b5/xpidl -I/usr/share/idl/xulrunner-1.9b5/stable/
 #FIREFOX=$(HOME)/Software/firefox/firefox
@@ -12,7 +12,7 @@ CHROMEFILES=$(shell find chrome/)
 all: $(XPIFILE)
 
 run: all
-	$(FIREFOX) -no-remote -P awesomesearch -jsconsole
+	$(FIREFOX) -no-remote -P searchery -jsconsole
 
 $(XPIFILE): $(COMPONENTS) $(CHROMEFILES) chrome.manifest install.rdf .gitignore xpi-ignore
 	rm -rf .xpistage $(XPIFILE)
@@ -27,5 +27,5 @@ tidy:
 	tidy -indent -quiet -utf8 -modify --tidy-mark false $(HTML)
 
 push: $(XPIFILE)
-	s3cmd -P --mime-type=application/x-xpinstall put $(XPIFILE) s3://static.ianloic.com/awesomesearch/`basename $(XPIFILE)`
-	s3cmd -P --mime-type=application/xml+rdf put update.rdf s3://static.ianloic.com/awesomesearch/update.rdf
+	s3cmd -P --mime-type=application/x-xpinstall put $(XPIFILE) s3://static.ianloic.com/searchery/`basename $(XPIFILE)`
+	s3cmd -P --mime-type=application/xml+rdf put update.rdf s3://static.ianloic.com/searchery/update.rdf

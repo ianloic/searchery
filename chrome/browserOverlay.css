@@ -1,42 +1,42 @@
 /*
  *  Copyright © 2008 Ian McKellar <ian@mckellar.org>
  *
- *  This file is part of AwesomeSearch.
+ *  This file is part of Searchery.
  *
- *  AwesomeSearch is free software: you can redistribute it and/or modify
+ *  Searchery is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  AwesomeSearch is distributed in the hope that it will be useful,
+ *  Searchery is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with AwesomeSearch.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with Searchery.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*richlistitem[type ~= 'awesomesearch'] > hbox:first-child {
-  background-image: url(chrome://awesomesearch/content/background.png);
+/*richlistitem[type ~= 'searchery'] > hbox:first-child {
+  background-image: url(chrome://searchery/content/background.png);
   background-position: bottom right;
   background-repeat: no-repeat;
 }
 */
-richlistitem[type ~= 'awesomesearch'] > hbox {
+richlistitem[type ~= 'searchery'] > hbox {
   background-color: #cbeaff;
 }
 
-richlistitem[type ~= 'awesomesearch'][selected="true"] > hbox {
+richlistitem[type ~= 'searchery'][selected="true"] > hbox {
   background-color: transparent;
 }
 
-#urlbar-icons > #awesomesearch-icon {
-  list-style-image: url(chrome://awesomesearch/content/magnifier.png);
+#urlbar-icons > #searchery-icon {
+  list-style-image: url(chrome://searchery/content/magnifier.png);
   visibility: visible !important;
 }
 
-#urlbar-icons > #awesomesearch-icon[addengines='true'] {
-  list-style-image: url(chrome://awesomesearch/content/magnifier_zoom_in.png);
+#urlbar-icons > #searchery-icon[addengines='true'] {
+  list-style-image: url(chrome://searchery/content/magnifier_zoom_in.png);
   visibility: visible !important;
 }

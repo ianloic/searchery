@@ -1,20 +1,20 @@
 /*
  *  Copyright © 2008 Ian McKellar <ian@mckellar.org>
  *
- *  This file is part of AwesomeSearch.
+ *  This file is part of Searchery.
  *
- *  AwesomeSearch is free software: you can redistribute it and/or modify
+ *  Searchery is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  AwesomeSearch is distributed in the hope that it will be useful,
+ *  Searchery is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with AwesomeSearch.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with Searchery.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 // these constants make everything better
@@ -89,7 +89,7 @@ function SearchBase_getStyleAt(index) {
   if (!this._results || index >= this._results.length) {
     return null;
   }
-  return (index?'suggesthint':'suggestfirst') + ' awesomesearch ' +
+  return (index?'suggesthint':'suggestfirst') + ' searchery ' +
     this._results[index].style;
 }
 
@@ -202,16 +202,16 @@ Cu.import("resource://gre/modules/JSON.jsm");
 GoogleSearch = function() { };
 GoogleSearch.prototype = new WebSearchBase();
 GoogleSearch.prototype.classDescription =
-    'AwesomeSearch Google AutoComplete';
+    'Searchery Google AutoComplete';
 GoogleSearch.prototype.contractID =
-    '@mozilla.org/autocomplete/search;1?name=as-google';
+    '@mozilla.org/autocomplete/search;1?name=srch-google';
 GoogleSearch.prototype.classID =
     Components.ID("7ffb0fd2-b67d-48d8-b9d0-7069764cb448");
 GoogleSearch.prototype.QueryInterface = 
     XPCOMUtils.generateQI([Ci.nsIAutoCompleteSearch, 
         Ci.nsIAutoCompleteResult]);
 GoogleSearch.prototype.makeRequest = function () {
-  if (!PREFS.getBoolPref('awesomesearch.engine.google') ||
+  if (!PREFS.getBoolPref('searchery.engine.google') ||
       empty(this.searchString)) {
     this.notifyListener(false);
     return;
@@ -234,7 +234,7 @@ GoogleSearch.prototype.handleResponse = function () {
   for (var i=0; i<data.responseData.results.length;i++) {
     var result = data.responseData.results[i];
     this.addResult(result.unescapedUrl, result.titleNoFormatting, 
-        'http://www.google.com/favicon.ico', 'as-google');
+        'http://www.google.com/favicon.ico', 'srch-google');
   }
   return true;
 }
@@ -246,13 +246,13 @@ GoogleSearch.prototype.handleResponse = function () {
 AmazonSearch = function() { };
 AmazonSearch.prototype = new WebSearchBase();
 AmazonSearch.prototype.classDescription =
-    'AwesomeSearch Amazon AutoComplete';
+    'Searchery Amazon AutoComplete';
 AmazonSearch.prototype.contractID =
-    '@mozilla.org/autocomplete/search;1?name=as-amazon';
+    '@mozilla.org/autocomplete/search;1?name=srch-amazon';
 AmazonSearch.prototype.classID =
     Components.ID("4fa91144-0d6e-4914-9ff5-0c297e812e5f");
 AmazonSearch.prototype.makeRequest = function () {
-  if (!PREFS.getBoolPref('awesomesearch.engine.amazon') ||
+  if (!PREFS.getBoolPref('searchery.engine.amazon') ||
       empty(this.searchString)) {
     this.notifyListener(false);
     return;
@@ -277,7 +277,7 @@ AmazonSearch.prototype.handleResponse = function () {
     var item = items[i];
     this.addResult(item.getElementsByTagName('DetailPageURL')[0].textContent, 
         item.getElementsByTagName('Title')[0].textContent,
-        'http://www.amazon.com/favicon.ico', 'as-amazon');
+        'http://www.amazon.com/favicon.ico', 'srch-amazon');
   }
   return true;
 }
@@ -293,13 +293,13 @@ SearchEngines.prototype = new SearchBase();
 SearchEngines.prototype.classDescription =
     'SearchEngines AutoComplete';
 SearchEngines.prototype.contractID =
-    '@mozilla.org/autocomplete/search;1?name=as-searchengines';
+    '@mozilla.org/autocomplete/search;1?name=srch-searchengines';
 SearchEngines.prototype.classID =
     Components.ID('9462837b-6ab3-439e-b0a8-4e10ac6430fb');
 SearchEngines.prototype.startSearch =
 function SearchEngines_startSearch(searchString, searchParam, previousResult, 
     listener) {
-  if (!PREFS.getBoolPref('awesomesearch.engines-enabled') ||
+  if (!PREFS.getBoolPref('searchery.engines-enabled') ||
       empty(searchString)) {
     this.notifyListener(false);
     return;
@@ -312,7 +312,7 @@ function SearchEngines_startSearch(searchString, searchParam, previousResult,
     this.addResult(submission.uri.spec, 
         'Search for "'+searchString+'" on '+engines[i].name, 
         engines[i].iconURI.spec,
-        'suggesthint awesomesearch as-searchengines');
+        'suggesthint searchery srch-searchengines');
   }
   this.notifyListener(true);
 }

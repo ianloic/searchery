@@ -1,33 +1,33 @@
 /*
  *  Copyright © 2008 Ian McKellar <ian@mckellar.org>
  *
- *  This file is part of AwesomeSearch.
+ *  This file is part of Searchery.
  *
- *  AwesomeSearch is free software: you can redistribute it and/or modify
+ *  Searchery is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  AwesomeSearch is distributed in the hope that it will be useful,
+ *  Searchery is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with AwesomeSearch.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with Searchery.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var AwesomeSearch = {};
+var Searchery = {};
 
 // initialization
-AwesomeSearch.windowOnLoad = function() {
+Searchery.windowOnLoad = function() {
   // add ourselves to the urlbar autocomplete list
   this.urlbar = document.getElementById('urlbar');
   this.urlbar.setAttribute('autocompletesearch', 
-      'history as-amazon as-google as-searchengines');
+      'history srch-amazon srch-google srch-searchengines');
 
   var hide_searchbox_pref = 
-    Application.prefs.get('awesomesearch.hide-searchbox');
+    Application.prefs.get('searchery.hide-searchbox');
 
   // hide the searchbar if appropriate
   function show_or_hide_searchbox() {
@@ -48,7 +48,7 @@ AwesomeSearch.windowOnLoad = function() {
       });
 
   // add handlers for the menu
-  this.menu = document.getElementById('awesomesearch-menu');
+  this.menu = document.getElementById('searchery-menu');
 
   // automatically handle boolean prefs on checkbox menu items
   var item = this.menu.firstChild;
@@ -69,27 +69,27 @@ AwesomeSearch.windowOnLoad = function() {
   }
 
   // hook up the "manage" menu item
-  var manage_item = document.getElementById('as-manage-search-engines');
-  manage_item.addEventListener('command', AwesomeSearch.openManager, false);
+  var manage_item = document.getElementById('srch-manage-search-engines');
+  manage_item.addEventListener('command', Searchery.openManager, false);
 
   // trick the Firefox browser search functionality into using the urlbar
   // when we've hidden the search bar
   BrowserSearch.__defineGetter__('searchBar', function() {
       return hide_searchbox_pref.value ? 
-        AwesomeSearch.urlbar : document.getElementById('searchbar') 
+        Searchery.urlbar : document.getElementById('searchbar') 
         })
 
   // wire up the 'searchButton' property to our ui
-  this.urlbar.searchButton = document.getElementById('awesomesearch-icon');
+  this.urlbar.searchButton = document.getElementById('searchery-icon');
 
   // onpopupshowing event for the menu
   this.menu.addEventListener('popupshowing', function(event) {
       // clear out old 'add engine' menuitems
-      var item = AwesomeSearch.menu.firstChild;
+      var item = Searchery.menu.firstChild;
       while (item) {
         if (item.hasAttribute('addengine')) {
           var next = item.nextSibling;
-          AwesomeSearch.menu.removeChild(item);
+          Searchery.menu.removeChild(item);
           item = next;
         } else {
           item = item.nextSibling;
@@ -102,12 +102,12 @@ AwesomeSearch.windowOnLoad = function() {
       if (engines && engines.length > 0) {
         var separator = document.createElement('menuseparator');
         separator.setAttribute('addengine', 'true');
-        AwesomeSearch.menu.appendChild(separator);
+        Searchery.menu.appendChild(separator);
         for (var i=0; i<engines.length; i++) {
           var menuitem = document.createElement('menuitem');
           menuitem.setAttribute('addengine', 'true');
           menuitem.setAttribute('label', 'Add "'+engines[i].title+'"...');
-          AwesomeSearch.menu.appendChild(menuitem);
+          Searchery.menu.appendChild(menuitem);
         }
       }
       }, false);
@@ -116,7 +116,7 @@ AwesomeSearch.windowOnLoad = function() {
   this.urlbar.maxRows *= 2;
 }
 
-AwesomeSearch.openManager = function(event) {
+Searchery.openManager = function(event) {
   var wm = Components.classes['@mozilla.org/appshell/window-mediator;1']
     .getService(Components.interfaces.nsIWindowMediator);
 
@@ -131,5 +131,5 @@ AwesomeSearch.openManager = function(event) {
   }
 }
 
-window.addEventListener('load', function() { AwesomeSearch.windowOnLoad() }, 
+window.addEventListener('load', function() { Searchery.windowOnLoad() }, 
     false);

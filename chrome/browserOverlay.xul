@@ -2,51 +2,52 @@
 <!--
   Copyright © 2008 Ian McKellar <ian@mckellar.org>
 
-  This file is part of AwesomeSearch.
+  This file is part of Searchery.
 
-  AwesomeSearch is free software: you can redistribute it and/or modify
+  Searchery is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  AwesomeSearch is distributed in the hope that it will be useful,
+  Searchery is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with AwesomeSearch.  If not, see <http://www.gnu.org/licenses/>.
+  along with Searchery.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<?xml-stylesheet href="chrome://awesomesearch/content/browserOverlay.css" type="text/css"?>
+<?xml-stylesheet href="chrome://searchery/content/browserOverlay.css" type="text/css"?>
 
-<overlay id="awesomesearch-browser-overlay"
+<overlay id="searchery-browser-overlay"
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
   <script type="text/javascript"
-    src="chrome://awesomesearch/content/browserOverlay.js"></script>
+    src="chrome://searchery/content/browserOverlay.js"></script>
 
   <popupset>
-    <menupopup id="awesomesearch-menu">
-      <menuitem id="as-enable-search-engines" label="Enable search engines" 
-        type="checkbox" boolpref="awesomesearch.engines-enabled"/>
-      <menuitem id="as-manage-search-engines" label="Manage search engines..."/>
+    <menupopup id="searchery-menu">
+      <menuitem id="srch-enable-search-engines" label="Enable search engines" 
+        type="checkbox" boolpref="searchery.engines-enabled"/>
+      <menuitem id="srch-manage-search-engines" 
+        label="Manage search engines..."/>
       <menuseparator />
-      <menuitem id="as-engine-google" label="Show Google web search results" 
-        type="checkbox" boolpref="awesomesearch.engine.google"/>
-      <menuitem id="as-engine-amazon" 
+      <menuitem id="srch-engine-google" label="Show Google web search results" 
+        type="checkbox" boolpref="searchery.engine.google"/>
+      <menuitem id="srch-engine-amazon" 
         label="Show Amazon product search results" type="checkbox" 
-        boolpref="awesomesearch.engine.amazon"/>
+        boolpref="searchery.engine.amazon"/>
       <menuseparator />
-      <menuitem id="as-hide-searchbox"
+      <menuitem id="srch-hide-searchbox"
         label="Hide the legacy search box" type="checkbox"
-        boolpref="awesomesearch.hide-searchbox"/>
+        boolpref="searchery.hide-searchbox"/>
     </menupopup>
   </popupset>
 
   <hbox id="urlbar-icons">
-    <image class="urlbar-icon" id="awesomesearch-icon" 
-      context="awesomesearch-menu" popup="awesomesearch-menu"
+    <image class="urlbar-icon" id="searchery-icon" 
+      context="searchery-menu" popup="searchery-menu"
       insertbefore="go-button" />
   </hbox>
 

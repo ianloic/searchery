@@ -4,19 +4,19 @@
      xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 
   <Description rdf:about="urn:mozilla:install-manifest">
-    <em:id>awesomesearch@ianloic.com</em:id>
-    <em:name>AwesomeSearch</em:name>
-    <em:version>0.0.2</em:version>
+    <em:id>searchery@ianloic.com</em:id>
+    <em:name>Searchery</em:name>
+    <em:version>0.1.0</em:version>
     <em:creator>Ian McKellar &lt;ian@mckellar.org&gt;</em:creator>
-    <em:description>Bring web search into the AwesomeBar</em:description>
+    <em:description>Precision Web Search for Firefox</em:description>
     <em:homepageURL>http://ian.mckellar.org/</em:homepageURL>
-    <em:updateURL>https://s3.amazonaws.com/static.ianloic.com/awesomesearch/update.rdf</em:updateURL>
+    <em:updateURL>https://s3.amazonaws.com/static.ianloic.com/searchery/update.rdf</em:updateURL>
     <em:contributor>Icons from Silk: http://www.famfamfam.com/lab/icons/silk/</em:contributor>
     <em:targetApplication>
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
         <em:minVersion>3.0b5</em:minVersion>
-        <em:maxVersion>3.0pre</em:maxVersion>
+        <em:maxVersion>3.0rc1</em:maxVersion>
       </Description>
     </em:targetApplication>
   </Description>
