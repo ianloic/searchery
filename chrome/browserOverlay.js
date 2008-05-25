@@ -24,7 +24,7 @@ AwesomeSearch.windowOnLoad = function() {
   // add ourselves to the urlbar autocomplete list
   this.urlbar = document.getElementById('urlbar');
   this.urlbar.setAttribute('autocompletesearch', 
-      'history as-amazon as-google as-opensearch');
+      'history as-amazon as-google as-searchengines');
 
   var hide_searchbox_pref = 
     Application.prefs.get('awesomesearch.hide-searchbox');

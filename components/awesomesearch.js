@@ -283,21 +283,21 @@ AmazonSearch.prototype.handleResponse = function () {
 }
 
 ////////////////////////////////////////////////////////
-// OpenSearch
+// SearchEngines
 
-OpenSearch = function() { 
+SearchEngines = function() { 
   this._searchService = Cc['@mozilla.org/browser/search-service;1']
     .getService(Ci.nsIBrowserSearchService);
 };
-OpenSearch.prototype = new SearchBase();
-OpenSearch.prototype.classDescription =
-    'OpenSearch AutoComplete';
-OpenSearch.prototype.contractID =
-    '@mozilla.org/autocomplete/search;1?name=as-opensearch';
-OpenSearch.prototype.classID =
+SearchEngines.prototype = new SearchBase();
+SearchEngines.prototype.classDescription =
+    'SearchEngines AutoComplete';
+SearchEngines.prototype.contractID =
+    '@mozilla.org/autocomplete/search;1?name=as-searchengines';
+SearchEngines.prototype.classID =
     Components.ID('9462837b-6ab3-439e-b0a8-4e10ac6430fb');
-OpenSearch.prototype.startSearch =
-function OpenSearch_startSearch(searchString, searchParam, previousResult, 
+SearchEngines.prototype.startSearch =
+function SearchEngines_startSearch(searchString, searchParam, previousResult, 
     listener) {
   if (!PREFS.getBoolPref('awesomesearch.engines-enabled') ||
       empty(searchString)) {
@@ -312,11 +312,11 @@ function OpenSearch_startSearch(searchString, searchParam, previousResult,
     this.addResult(submission.uri.spec, 
         'Search for "'+searchString+'" on '+engines[i].name, 
         engines[i].iconURI.spec,
-        'suggesthint awesomesearch as-opensearch');
+        'suggesthint awesomesearch as-searchengines');
   }
   this.notifyListener(true);
 }
 
 function NSGetModule(compMgr, fileSpec) {
-  return XPCOMUtils.generateModule([GoogleSearch, AmazonSearch, OpenSearch]);
+  return XPCOMUtils.generateModule([GoogleSearch, AmazonSearch, SearchEngines]);
 }
