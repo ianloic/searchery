@@ -2,7 +2,6 @@ Remaining work for 0.1:
  * support adding new search engines
     * add search engines
     * hide the add menu items for engines that we already have?
- * rename to "Searchery: Precision Web Search for Firefox"
  * update website to reflect new name & features
  * work out and test updates story
  * hide the search-suggestions option from the search engine management ui
