@@ -11,6 +11,7 @@
     <em:description>Bring web search into the AwesomeBar</em:description>
     <em:homepageURL>http://ian.mckellar.org/</em:homepageURL>
     <em:updateURL>https://s3.amazonaws.com/static.ianloic.com/awesomesearch/update.rdf</em:updateURL>
+    <em:contributor>Icons from Silk: http://www.famfamfam.com/lab/icons/silk/</em:contributor>
     <em:targetApplication>
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
