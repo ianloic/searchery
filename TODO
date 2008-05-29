@@ -5,3 +5,5 @@ Remaining work for 0.1:
  * update website to reflect new name & features
  * work out and test updates story
  * hide the search-suggestions option from the search engine management ui
+ * ensure urlbar icon positioning is consistent & predictable
+ * move the build system to rake?
