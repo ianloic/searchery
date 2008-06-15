@@ -3,7 +3,6 @@ VERSION=0.1.0
 XPIFILE=web/searchery-$(VERSION).xpi
 
 XPIDL=/usr/lib/xulrunner-1.9b5/xpidl -I/usr/share/idl/xulrunner-1.9b5/stable/
-#FIREFOX=$(HOME)/Software/firefox/firefox
 FIREFOX=firefox
 
 COMPONENTS=$(shell echo components/*.js)
@@ -26,6 +25,5 @@ HTML=web/index.html web/configure.html
 tidy:
 	tidy -indent -quiet -utf8 -modify --tidy-mark false $(HTML)
 
-push: $(XPIFILE)
-	s3cmd -P --mime-type=application/x-xpinstall put $(XPIFILE) s3://static.ianloic.com/searchery/`basename $(XPIFILE)`
-	s3cmd -P --mime-type=application/xml+rdf put update.rdf s3://static.ianloic.com/searchery/update.rdf
+push: $(XPIFILE) $(shell find web/)
+	rsync -avz web/ yakk@ianloic.com:searchery.ianloic.com/
