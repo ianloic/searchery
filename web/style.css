@@ -38,6 +38,9 @@ body {
   color: #999;
 }
 
+.screenshot {
+  text-align: center;
+}
 
 
 #installbutton {
