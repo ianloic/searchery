@@ -1,24 +1,22 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<RDF:RDF xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-         xmlns:em="http://www.mozilla.org/2004/em-rdf#">
-  <RDF:Description about="urn:mozilla:extension:searchery@ianloic.com">
-    <em:updates>
-      <RDF:Seq>
-        <RDF:li>
-          <RDF:Description>
-            <em:version>0.1.0</em:version>
-            <em:targetApplication>
-              <Description>
-                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-                <em:minVersion>3.0b5</em:minVersion>
-                <em:maxVersion>3.0pre</em:maxVersion>
-                <em:updateLink>http://searchery.ianloic.com/searchery-0.1.0.xpi</em:updateLink>
-                <em:updateInfoURL>http://searchery.ianloic.com/searchery-0.1.0.html</em:updateInfoURL>
-              </Description>
-            </em:targetApplication>
-          </RDF:Description>
-        </RDF:li>
-      </RDF:Seq>
-    </em:updates>
+<?xml version="1.0"?>
+<RDF:RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#"
+         xmlns:NC="http://home.netscape.com/NC-rdf#"
+         xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <RDF:Description RDF:about="urn:searchery-0.1.0"
+                   em:version="0.1.0">
+    <em:targetApplication RDF:resource="urn:searchery-0.1.0:firefox"/>
+  </RDF:Description>
+  <RDF:Seq RDF:about="urn:searchery:updates">
+    <RDF:li RDF:resource="urn:searchery-0.1.0"/>
+  </RDF:Seq>
+  <Description RDF:about="urn:searchery-0.1.0:firefox"
+                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   em:minVersion="3.0b5"
+                   em:maxVersion="3.0pre"
+                   em:updateLink="http://searchery.ianloic.com/searchery-0.1.0.xpi"
+                   em:updateInfoURL="http://searchery.ianloic.com/searchery-0.1.0.html" />
+  <RDF:Description RDF:about="urn:mozilla:extension:searchery@ianloic.com"
+                   em:signature="MIGTMA0GCSqGSIb3DQEBDQUAA4GBAFTJ4Rwpl7jinB1uFTWX9PhNrTt7z4kasIzIfcO0lfWS/6AjbhOUwSFh+eblBsSQLvRKi5SxlNLILutO3r/F0lxQ2QU/lUWnMssH0FwdZnnqqwFmVeAjSVjTepQM37XUfPpzTEQDmUMGE9GEG+/bKRhcxwcmfXl7ngme+fxwjAD+">
+    <em:updates RDF:resource="urn:searchery:updates"/>
   </RDF:Description>
 </RDF:RDF>
