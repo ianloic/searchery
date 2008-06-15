@@ -39,3 +39,19 @@ body {
 }
 
 
+
+#installbutton {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  font-size: 24px;
+  background: url(web-background.jpg);
+  -moz-border-radius: 8px;
+  padding: 8px;
+  border: 1px solid #999;
+}
+
+#installbutton:hover {
+  border-color: black;
+  background: white;
+}
