@@ -20,7 +20,7 @@ $(XPIFILE): $(COMPONENTS) $(CHROMEFILES) chrome.manifest install.rdf .gitignore 
 	cd .xpistage && zip -r ../$(XPIFILE) *
 	rm -rf .xpistage
 
-HTML=web/index.html web/configure.html
+HTML=web/index.html
 
 tidy:
 	tidy -indent -quiet -utf8 -modify --tidy-mark false $(HTML)
