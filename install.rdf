@@ -1,23 +1,21 @@
 <?xml version="1.0"?>
-<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-     xmlns:em="http://www.mozilla.org/2004/em-rdf#">
-
-  <Description rdf:about="urn:mozilla:install-manifest">
-    <em:id>searchery@ianloic.com</em:id>
-    <em:name>Searchery</em:name>
-    <em:version>0.1.0</em:version>
-    <em:creator>Ian McKellar &lt;ian@mckellar.org&gt;</em:creator>
-    <em:description>Precision Web Search for Firefox</em:description>
-    <em:homepageURL>http://ian.mckellar.org/</em:homepageURL>
-    <em:updateURL>https://s3.amazonaws.com/static.ianloic.com/searchery/update.rdf</em:updateURL>
-    <em:contributor>Icons from Silk: http://www.famfamfam.com/lab/icons/silk/</em:contributor>
-    <em:targetApplication>
-      <Description>
-        <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-        <em:minVersion>3.0b5</em:minVersion>
-        <em:maxVersion>3.0rc1</em:maxVersion>
-      </Description>
-    </em:targetApplication>
-  </Description>
-</RDF>
+<RDF:RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#"
+         xmlns:NC="http://home.netscape.com/NC-rdf#"
+         xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <RDF:Description RDF:about="rdf:#$5lQcO1"
+                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   em:minVersion="3.0b5"
+                   em:maxVersion="3.0rc1" />
+  <RDF:Description RDF:about="urn:mozilla:install-manifest"
+                   em:id="searchery@ianloic.com"
+                   em:name="Searchery"
+                   em:version="0.1.0"
+                   em:creator="Ian McKellar &lt;ian@mckellar.org&gt;"
+                   em:description="Precision Web Search for Firefox"
+                   em:homepageURL="http://ian.mckellar.org/"
+                   em:updateURL="https://searchery.ianloic.com/update.rdf"
+                   em:contributor="Icons from Silk: http://www.famfamfam.com/lab/icons/silk/"
+                   em:updateKey="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDMaHBiV1xr611RrrJO0Uh2YQHvGYp1LrP4gY1vHxuTIYNctKdlpaxtGPjs1anYA+6Dp31jtKlkxA7Eo2VyaZn+8gCPne4MrEZ7nJjBA9jdgQNN5GPm9IJwhNgKoaDQYSnW9bmWauYRwIWmBqrwQzV5Re4Kg/18W1peYALxUL+8HwIDAQAB">
+    <em:targetApplication RDF:resource="rdf:#$5lQcO1"/>
+  </RDF:Description>
+</RDF:RDF>
