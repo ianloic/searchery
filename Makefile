@@ -20,10 +20,10 @@ $(XPIFILE): $(COMPONENTS) $(CHROMEFILES) chrome.manifest install.rdf .gitignore 
 	cd .xpistage && zip -r ../$(XPIFILE) *
 	rm -rf .xpistage
 
-HTML=web/index.html
+HTML=web/index.html web/install.html
 
 tidy:
 	tidy -indent -quiet -utf8 -modify --tidy-mark false $(HTML)
 
 push: $(XPIFILE) $(shell find web/)
-	rsync -avz web/ yakk@ianloic.com:searchery.ianloic.com/
+	rsync --delete -avz web/ yakk@ianloic.com:searchery.ianloic.com/
