@@ -26,4 +26,4 @@ tidy:
 	tidy -indent -quiet -utf8 -modify --tidy-mark false $(HTML)
 
 push: $(XPIFILE) $(shell find web/)
-	rsync --delete -avz web/ yakk@ianloic.com:searchery.ianloic.com/
+	rsync --exclude-from .gitignore --delete --delete-excluded -avz web/ yakk@ianloic.com:searchery.ianloic.com/
