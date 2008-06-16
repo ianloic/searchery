@@ -26,10 +26,6 @@ const Cu = Components.utils;
 // import the XPCOM helper
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 
-// prefs service
-const PREFS = Cc['@mozilla.org/preferences-service;1']
-    .getService(Ci.nsIPrefBranch);
-
 // a little helper
 function empty(s) {
   return s.search(/[^ ]/) == -1;
@@ -211,7 +207,7 @@ GoogleSearch.prototype.QueryInterface =
     XPCOMUtils.generateQI([Ci.nsIAutoCompleteSearch, 
         Ci.nsIAutoCompleteResult]);
 GoogleSearch.prototype.makeRequest = function () {
-  if (!PREFS.getBoolPref('searchery.engine.google') ||
+  if (!Application.prefs.getValue('searchery.engine.google', false) ||
       empty(this.searchString)) {
     this.notifyListener(false);
     return;
@@ -252,7 +248,7 @@ AmazonSearch.prototype.contractID =
 AmazonSearch.prototype.classID =
     Components.ID("4fa91144-0d6e-4914-9ff5-0c297e812e5f");
 AmazonSearch.prototype.makeRequest = function () {
-  if (!PREFS.getBoolPref('searchery.engine.amazon') ||
+  if (!Application.prefs.getValue('searchery.engine.amazon', false) ||
       empty(this.searchString)) {
     this.notifyListener(false);
     return;
@@ -299,7 +295,7 @@ SearchEngines.prototype.classID =
 SearchEngines.prototype.startSearch =
 function SearchEngines_startSearch(searchString, searchParam, previousResult, 
     listener) {
-  if (!PREFS.getBoolPref('searchery.engines-enabled') ||
+  if (!Application.prefs.getValue('searchery.engines-enabled', false) ||
       empty(searchString)) {
     this.notifyListener(false);
     return;
