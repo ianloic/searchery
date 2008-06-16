@@ -1,8 +1,9 @@
 body {
-  background: url(web-background.jpg) white repeat-x;
+  background: url(../web-background.jpg) white repeat-x;
   margin: 0px;
   border: 0px;
   padding: 0px;
+  font-family: sans-serif;
 }
 #page {
   margin-top: 100px;
@@ -48,7 +49,7 @@ body {
   color: black;
   font-weight: bold;
   font-size: 24px;
-  background: url(web-background.jpg);
+  background: url(../web-background.jpg);
   -moz-border-radius: 8px;
   padding: 8px;
   border: 1px solid #999;
