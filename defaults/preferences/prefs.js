@@ -1,3 +1,4 @@
+pref('searchery.firstrun', true);
 pref('searchery.engines-enabled', true);
 pref('searchery.hide-searchbox', true);
 pref('searchery.engine.google', true);

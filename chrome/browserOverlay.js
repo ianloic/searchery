@@ -21,6 +21,13 @@ var Searchery = {};
 
 // initialization
 Searchery.windowOnLoad = function() {
+  if (Application.prefs.get("searchery.firstrun").value) {
+    Application.prefs.setValue("searchery.firstrun", false);
+    // show the welcome page in a tab
+    gBrowser.selectedTab = 
+      gBrowser.addTab("http://searchery.ianloic.com/welcome.html");
+  }
+
   // add ourselves to the urlbar autocomplete list
   this.urlbar = document.getElementById('urlbar');
   this.urlbar.setAttribute('autocompletesearch', 
