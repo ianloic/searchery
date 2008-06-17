@@ -13,7 +13,9 @@
                    em:creator="Ian McKellar &lt;ian@mckellar.org&gt;"
                    em:description="Precision Web Search for Firefox"
                    em:homepageURL="http://searchery.ianloic.com/"
-                   em:contributor="Icons from Silk: http://www.famfamfam.com/lab/icons/silk/">
+                   em:contributor="Icons from Silk: http://www.famfamfam.com/lab/icons/silk/"
+                   em:iconURL="chrome://searchery/content/magnifier32.png"
+                   >
     <em:targetApplication RDF:resource="rdf:#$5lQcO1"/>
   </RDF:Description>
 </RDF:RDF>
