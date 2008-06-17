@@ -13,9 +13,7 @@
                    em:creator="Ian McKellar &lt;ian@mckellar.org&gt;"
                    em:description="Precision Web Search for Firefox"
                    em:homepageURL="http://searchery.ianloic.com/"
-                   em:updateURL="http://searchery.ianloic.com/update.rdf"
-                   em:contributor="Icons from Silk: http://www.famfamfam.com/lab/icons/silk/"
-                   em:updateKey="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDMaHBiV1xr611RrrJO0Uh2YQHvGYp1LrP4gY1vHxuTIYNctKdlpaxtGPjs1anYA+6Dp31jtKlkxA7Eo2VyaZn+8gCPne4MrEZ7nJjBA9jdgQNN5GPm9IJwhNgKoaDQYSnW9bmWauYRwIWmBqrwQzV5Re4Kg/18W1peYALxUL+8HwIDAQAB">
+                   em:contributor="Icons from Silk: http://www.famfamfam.com/lab/icons/silk/">
     <em:targetApplication RDF:resource="rdf:#$5lQcO1"/>
   </RDF:Description>
 </RDF:RDF>
