@@ -124,20 +124,6 @@ Searchery.windowOnLoad = function() {
 
   // mess with the autocomplete results panel
   this.resultsPanel = document.getElementById('PopupAutoCompleteRichResult');
-  this.resultsPanelDecorated = false;
-  this.resultsPanel.addEventListener('popupshowing', function(event) {
-    if (!Searchery.resultsPanelDecorated) {
-      Searchery.decorateResultsPanel();
-      Searchery.resultsPanelDecorated = true;
-    }
-  }, false);
-}
-
-Searchery.decorateResultsPanel = function() {
-  var label = document.createElement('label');
-  label.setAttribute('value', 'History and Bookmarks');
-  label.setAttribute('class', 'searchery-section-title');
-  this.resultsPanel.appendChild(label);
 }
 
 Searchery.openManager = function(event) {

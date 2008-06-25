@@ -8,13 +8,17 @@
 
   <binding id="autocomplete-rich-result-popup"
            extends="chrome://browser/content/urlbarBindings.xml#urlbar-rich-result-popup">
-<!--
+    <content ignorekeys="true">
+      <xul:label class="searchery-header" value="History and Bookmarks" />
+      <xul:richlistbox anonid="richlistbox" class="autocomplete-richlistbox" flex="1"/>
+      <xul:label class="searchery-header" value="Search Engines" />
+    </content>
+
     <implementation implements="nsIAutoCompletePopup">
       <constructor><![CDATA[
         dump('hello, world\n');
       ]]></constructor>
     </implementation>
--->
   </binding>
 </bindings>
 
