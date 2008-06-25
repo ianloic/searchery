@@ -40,3 +40,7 @@ richlistitem[type ~= 'searchery'][selected="true"] > hbox {
   list-style-image: url(chrome://searchery/content/magnifier_zoom_in.png);
   visibility: visible !important;
 }
+
+#PopupAutoCompleteRichResult {
+  -moz-binding: url(chrome://searchery/content/bindings.xml#autocomplete-rich-result-popup) !important;
+}
