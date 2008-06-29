@@ -62,7 +62,9 @@
               // page up/down means switch section
               this._section += (aReverse?-1:1);
               dump('this._section = '+this._section+'\n');
-              var sections = this.sections_vbox.childNodes;
+              var sections_vbox = document.getAnonymousElementByAttribute(this,
+                  'anonid', 'searchery-sections');
+              var sections = sections_vbox.childNodes;
               dump(' sections.length: '+sections.length+'\n');
               for (var i=0; i<sections.length; i++) {
                 dump('check out: '+sections[i]+'\n');
@@ -81,6 +83,7 @@
               }
             }
           } catch (ex) {
+            Components.utils.reportError(ex);
           }
             ]]>
         </body>
@@ -107,14 +110,18 @@
         ]]></body>
       </method>
 
-      <method name="_closePopup">
-        <body><![CDATA[
+      <method name="closePopup">
+        <body>
+          <![CDATA[
           dump('closePopup\n');
-          // call the superclass's implementation
-          this.__proto__.closePopup();
-        ]]></body>
+          if (this.mPopupOpen) {
+            this.hidePopup();
+            document.popupNode = null;
+            this.removeAttribute("width");
+          }
+        ]]>
+        </body>
       </method>
-
     </implementation>
 
     <handlers>
@@ -179,10 +186,8 @@
         <parameter name="event" />
         <body><![CDATA[
           // pass this up one binding...
-          dump('popup click, yo\n');
           var item = this.richlistbox.selectedItem;
           var url = item.getAttribute('url');
-          dump(url+'\n');
           this.popup.closePopup();
           this.popup.input.textValue = url;
           handleURLBarCommand(event);
