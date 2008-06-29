@@ -10,7 +10,7 @@
            extends="chrome://browser/content/urlbarBindings.xml#urlbar-rich-result-popup">
     <content ignorekeys="true">
       <xul:vbox anonid="searchery-sections">
-        <xul:vbox selected="true" class="searchery-section-places"
+        <xul:vbox class="searchery-section-places" selected="true"
                   title="History and Bookmarks">
           <xul:richlistbox anonid="richlistbox" class="autocomplete-richlistbox"
               flex="1"/>
@@ -71,7 +71,7 @@
               this._section += (aReverse?-1:1);
               if (this._section < 0 || this._section >= this._sections.length) {
                 this.input._focus();
-                this._section = -1;
+                this._section = 0;
               }
               dump('this._section = '+this._section+'\n');
 
@@ -86,7 +86,6 @@
                 this.selectedIndex = this.getNextIndex(aReverse, 1,
                     this.selectedIndex, this._matchCount - 1);
                 if (this.selectedIndex == -1) {
-                  dump(' focussing the url bar\n');
                   this.input._focus();
                 }
               } else {

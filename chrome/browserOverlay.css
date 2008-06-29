@@ -68,9 +68,14 @@ richlistitem[type ~= 'searchery'][selected="true"] > hbox {
 .searchery-section-header {
   font-weight: bold;
 }
-vbox[selected="true"] .searchery-section-header {
+vbox[anonid="searchery-sections"] > vbox[selected="true"] {
   background-color: #cbeaff;
 }
+vbox[anonid="searchery-sections"] > vbox {
+  background-image: url(title-gradient.png);
+  background-repeat: repeat-x;
+}
+
 .searchery-section-spinner {
   width: 16px;
   height: 16px;
