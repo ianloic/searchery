@@ -24,16 +24,18 @@ Searchery.windowOnLoad = function() {
   if (Application.prefs.get("searchery.firstrun").value) {
     Application.prefs.setValue("searchery.firstrun", false);
     // show the welcome page in a tab
-    gBrowser.selectedTab = 
+    gBrowser.selectedTab =
       gBrowser.addTab("http://searchery.ianloic.com/welcome.html");
   }
 
   // add ourselves to the urlbar autocomplete list
   this.urlbar = document.getElementById('urlbar');
-  this.urlbar.setAttribute('autocompletesearch', 
+  /*
+  this.urlbar.setAttribute('autocompletesearch',
       'history srch-amazon srch-google srch-searchengines');
+ */
 
-  var hide_searchbox_pref = 
+  var hide_searchbox_pref =
     Application.prefs.get('searchery.hide-searchbox');
 
   // hide the searchbar if appropriate
@@ -82,8 +84,8 @@ Searchery.windowOnLoad = function() {
   // trick the Firefox browser search functionality into using the urlbar
   // when we've hidden the search bar
   BrowserSearch.__defineGetter__('searchBar', function() {
-      return hide_searchbox_pref.value ? 
-        Searchery.urlbar : document.getElementById('searchbar') 
+      return hide_searchbox_pref.value ?
+        Searchery.urlbar : document.getElementById('searchbar')
         })
 
   // wire up the 'searchButton' property to our ui
@@ -117,10 +119,10 @@ Searchery.windowOnLoad = function() {
           Searchery.menu.appendChild(menuitem);
         }
       }
-      }, false);
+    }, false);
 
   // we're putting more in the autocomplete - double its size
-  this.urlbar.maxRows *= 2;
+  //this.urlbar.maxRows *= 2;
 
   // mess with the autocomplete results panel
   this.resultsPanel = document.getElementById('PopupAutoCompleteRichResult');
@@ -141,5 +143,5 @@ Searchery.openManager = function(event) {
   }
 }
 
-window.addEventListener('load', function() { Searchery.windowOnLoad() }, 
+window.addEventListener('load', function() { Searchery.windowOnLoad() },
     false);

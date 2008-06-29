@@ -9,16 +9,172 @@
   <binding id="autocomplete-rich-result-popup"
            extends="chrome://browser/content/urlbarBindings.xml#urlbar-rich-result-popup">
     <content ignorekeys="true">
-      <xul:label class="searchery-header" value="History and Bookmarks" />
-      <xul:richlistbox anonid="richlistbox" class="autocomplete-richlistbox" flex="1"/>
-      <xul:label class="searchery-header" value="Search Engines" />
+      <xul:vbox anonid="searchery-sections">
+        <xul:vbox selected="true">
+          <xul:label class="searchery-section-header"
+              anonid="searchery-places-header" value="History and Bookmarks" />
+          <xul:richlistbox anonid="richlistbox" class="autocomplete-richlistbox"
+              flex="1"/>
+        </xul:vbox>
+      </xul:vbox>
     </content>
 
     <implementation implements="nsIAutoCompletePopup">
       <constructor><![CDATA[
         dump('hello, world\n');
+        this._sections.push(null);
+        var sections_vbox = document.getAnonymousElementByAttribute(this,
+            'anonid', 'searchery-sections');
+        function makeSection(title, id) {
+          var section = document.createElement('vbox');
+          section.className = 'searchery-section';
+          section.setAttribute('title', title);
+          section.setAttribute('id', id);
+          sections_vbox.appendChild(section);
+          return section;
+        }
+
+
+        this._sections.push(makeSection('Search Engines', 'searchery-engines'));
+        this._sections.push(makeSection('Google Results', 'searchery-google'));
+        this._sections.push(makeSection('Amazon Engines', 'searchery-amazon'));
+
+        var self = this;
+        // this listener is attached to the input when it can be
+        this._inputListener = function (event) {
+          self.newSearch(self.input.value);
+        }
       ]]></constructor>
+      <field name="_section">0</field>
+      <field name="_sections">new Array()</field>
+      <method name="selectBy">
+        <parameter name="aReverse"/>
+        <parameter name="aPage"/>
+        <body>
+          <![CDATA[
+          /* this is called by the controller when the arrow or page keys are
+             pressed. it must be subverted for our nefarious purposes */
+          try {
+            dump('selectBy(aReverse='+aReverse+', aPage='+aPage+')\n');
+            if (aPage) {
+              // page up/down means switch section
+              this._section += (aReverse?-1:1);
+            } else {
+              this.selectedIndex = this.getNextIndex(aReverse, 1,
+                  this.selectedIndex, this._matchCount - 1);
+              if (this.selectedIndex == -1) {
+                dump(' focussing the url bar\n');
+                this.input._focus();
+              }
+            }
+          } catch (ex) {
+          }
+            ]]>
+        </body>
+      </method>
+
+      <method name="newSearch">
+        <parameter name="query"/>
+        <body><![CDATA[
+          dump('newSearch: '+query+'\n');
+          for (var i=0; i<this._sections.length; i++) {
+            if (this._sections[i]) {
+              try {
+                this._sections[i].newSearch(query);
+              } catch(e) {
+                Components.utils.reportError(e);
+              }
+            }
+          }
+        ]]></body>
+      </method>
+
+    </implementation>
+
+    <handlers>
+      <handler event="popupshowing"><![CDATA[
+        dump('popup showing\n');
+        dump('input: '+this.input+'\n');
+        dump('input.value: '+this.input.value+'\n');
+        dump('input.controller: '+this.input.controller+'\n');
+        this.newSearch(this.input.value);
+        this.input.addEventListener('input', this._inputListener, false);
+      ]]></handler>
+      <handler event="popuphiding"><![CDATA[
+        dump('popup hiding\n');
+        dump('input: '+this.input+'\n');
+        this.input.removeEventListener('input', this._inputListner, false);
+      ]]></handler>
+    </handlers>
+  </binding>
+
+  <binding id="section" extends="xul:vbox">
+    <content>
+      <xul:label class="searchery-section-header" xbl:inherits="value=title"/>
+      <xul:richlistbox class="searchery-richlisbox" anonid="richlistbox"/>
+    </content>
+    <implementation>
+      <field name="richlistbox">null</field>
+      <constructor><![CDATA[
+        this.richlistbox = document.getAnonymousElementByAttribute(this,
+            'anonid', 'richlistbox');
+      ]]></constructor>
+      <method name="newSearch">
+        <parameter name="query"/>
+        <body><![CDATA[
+          // do stuff
+        ]]></body>
+      </method>
     </implementation>
   </binding>
-</bindings>
 
+  <binding id="engines-section" extends="#section">
+
+    <implementation>
+      <!-- segv for some reason
+      <field id="_searchService">
+        Components.classes['@mozilla.org/browser/search-service;1']
+            .getService(Components.interfaces.nsIBrowserSearchService);
+      </field>
+      -->
+
+      <method name="newSearch">
+        <parameter name="query"/>
+        <body><![CDATA[
+          dump('engines newSearch\n');
+          // make sure we have a reference to the search service
+          if (!this._searchService) {
+            this._searchService =
+                Components.classes['@mozilla.org/browser/search-service;1']
+                .getService(Components.interfaces.nsIBrowserSearchService);
+          }
+
+          // clear the richlistbox
+          while(this.richlistbox.firstChild) {
+            this.richlistbox.removeChild(this.richlistbox.firstChild);
+          }
+
+          // fill it with search engines...
+          var engines = this._searchService.getVisibleEngines({ });
+          for (var i=0; i<engines.length; i++) {
+            var submission = engines[i].getSubmission(query, 'text/html');
+            var item = document.createElement('label');
+            item.setAttribute('value', 'Search for "' + query + '" on ' +
+                              engines[i].name);
+            this.richlistbox.appendChild(item);
+            /*
+            this.addResult(submission.uri.spec,
+                'Search for "'+query+'" on '+engines[i].name,
+                engines[i].iconURI.spec,
+                'suggesthint searchery srch-searchengines');
+            */
+          }
+
+        ]]></body>
+      </method>
+      -->
+
+    </implementation>
+
+  </binding>
+</bindings>
