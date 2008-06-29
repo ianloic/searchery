@@ -38,11 +38,23 @@
         this._sections.push(makeSection('Amazon Engines', 'searchery-amazon'));
 
         var self = this;
-        // this listener is attached to the input when it can be
+        // these listeners are attached to the input when they can be
         this._inputListener = function (event) {
           self.newSearch();
         }
-
+        this._keypressListener = function (event) {
+          dump('keypress: '+event.keyCode+'\n');
+          if (event.keyCode == 13) {
+            if (self._section) {
+              event.preventDefault();
+              event.stopPropagation();
+              var item = self._sections[self._section].richlistbox.selectedItem;
+              var url = item.getAttribute('url');
+              self.input.textValue = url;
+              handleURLBarCommand(event);
+            }
+          }
+        }
 
         // overrride closePopup with my own
         //this.closePopup = this._closePopup
@@ -58,28 +70,31 @@
              pressed. it must be subverted for our nefarious purposes */
           try {
             dump('selectBy(aReverse='+aReverse+', aPage='+aPage+')\n');
+            var sections_vbox = document.getAnonymousElementByAttribute(this,
+                'anonid', 'searchery-sections');
             if (aPage) {
               // page up/down means switch section
               this._section += (aReverse?-1:1);
               dump('this._section = '+this._section+'\n');
-              var sections_vbox = document.getAnonymousElementByAttribute(this,
-                  'anonid', 'searchery-sections');
+
               var sections = sections_vbox.childNodes;
               dump(' sections.length: '+sections.length+'\n');
               for (var i=0; i<sections.length; i++) {
-                dump('check out: '+sections[i]+'\n');
-                if (i == this._section) {
-                  sections[i].setAttribute('selected', 'true');
-                } else {
-                  sections[i].removeAttribute('selected');
-                }
+                // mark the selected section as selected
+                sections[i].selected = (i == this._section);
               }
             } else {
-              this.selectedIndex = this.getNextIndex(aReverse, 1,
-                  this.selectedIndex, this._matchCount - 1);
-              if (this.selectedIndex == -1) {
-                dump(' focussing the url bar\n');
-                this.input._focus();
+              if (this._section == 0) {
+                // the places section
+                this.selectedIndex = this.getNextIndex(aReverse, 1,
+                    this.selectedIndex, this._matchCount - 1);
+                if (this.selectedIndex == -1) {
+                  dump(' focussing the url bar\n');
+                  this.input._focus();
+                }
+              } else {
+                // a searchery section
+                sections_vbox.childNodes[this._section].selectBy(aReverse);
               }
             }
           } catch (ex) {
@@ -89,10 +104,17 @@
         </body>
       </method>
 
+      <field name="_lastQuery">null</field>
       <method name="newSearch">
         <body><![CDATA[
           try {
             var query = this.input.controller.searchString;
+
+            if (query === this._lastQuery) {
+              return;
+            }
+
+            this._lastQuery = query;
 
             dump('newSearch: '+query+'\n');
             for (var i=0; i<this._sections.length; i++) {
@@ -128,9 +150,11 @@
       <handler event="popupshowing"><![CDATA[
         this.newSearch();
         this.input.addEventListener('input', this._inputListener, false);
+        this.input.addEventListener('keypress', this._keypressListener, true);
       ]]></handler>
       <handler event="popuphiding"><![CDATA[
         this.input.removeEventListener('input', this._inputListner, false);
+        this.input.removeEventListener('keypress', this._keypressListner, true);
       ]]></handler>
     </handlers>
   </binding>
@@ -166,6 +190,21 @@
           return this.parentNode.parentNode.onPopupClick(event);
         ]]></body>
       </method>
+
+      <property name="selected">
+        <getter><![CDATA[
+          return this.hasAttribute('selected');
+        ]]></getter>
+        <setter><![CDATA[
+          if (val) {
+            this.setAttribute('selected', 'true');
+            //this.richlistbox.selectedIndex = 0;
+          } else {
+            this.removeAttribute('selected');
+            //this.richlistbox.selectedIndex = -1;
+          }
+        ]]></setter>
+      </property>
     </implementation>
   </binding>
 
@@ -193,6 +232,37 @@
           handleURLBarCommand(event);
         ]]></body>
       </method>
+
+      <method name="selectBy">
+        <parameter name="aReverse"/>
+        <body><![CDATA[
+          dump('selectBy!!!!\n');
+          var newIndex = this.richlistbox.selectedIndex +
+              (aReverse?-1:1);
+          if (newIndex < 0) {
+            newIndex = 0;
+          }
+          if (newIndex >= this.richlistbox.itemCount) {
+            newIndex = this.richlistbox.itemCount-1;
+          }
+          this.richlistbox.selectedIndex = newIndex;
+        ]]></body>
+      </method>
+
+      <property name="selected">
+        <getter><![CDATA[
+          return this.hasAttribute('selected');
+        ]]></getter>
+        <setter><![CDATA[
+          if (val) {
+            this.setAttribute('selected', 'true');
+            this.richlistbox.selectedIndex = 0;
+          } else {
+            this.removeAttribute('selected');
+            this.richlistbox.selectedIndex = -1;
+          }
+        ]]></setter>
+      </property>
 
       <method name="clearResults">
         <body><![CDATA[
@@ -236,7 +306,6 @@
   </binding>
 
   <binding id="engines-section" extends="#section">
-
     <implementation>
       <method name="newSearch">
         <parameter name="query"/>
