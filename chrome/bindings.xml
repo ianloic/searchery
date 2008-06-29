@@ -20,22 +20,20 @@
 
     <implementation implements="nsIAutoCompletePopup">
       <constructor><![CDATA[
-        this._sections.push(null);
         var sections_vbox = document.getAnonymousElementByAttribute(this,
             'anonid', 'searchery-sections');
+        this._sections = sections_vbox.childNodes;
         function makeSection(title, id) {
           var section = document.createElement('vbox');
           section.className = 'searchery-section';
           section.setAttribute('title', title);
           section.setAttribute('id', id);
           sections_vbox.appendChild(section);
-          return section;
         }
 
-
-        this._sections.push(makeSection('Search Engines', 'searchery-engines'));
-        this._sections.push(makeSection('Google Results', 'searchery-google'));
-        this._sections.push(makeSection('Amazon Engines', 'searchery-amazon'));
+        makeSection('Search Engines', 'searchery-engines');
+        makeSection('Google Results', 'searchery-google');
+        makeSection('Amazon Engines', 'searchery-amazon');
 
         var self = this;
         // these listeners are attached to the input when they can be
@@ -60,7 +58,6 @@
         //this.closePopup = this._closePopup
       ]]></constructor>
       <field name="_section">0</field>
-      <field name="_sections">new Array()</field>
       <method name="selectBy">
         <parameter name="aReverse"/>
         <parameter name="aPage"/>
@@ -69,19 +66,19 @@
           /* this is called by the controller when the arrow or page keys are
              pressed. it must be subverted for our nefarious purposes */
           try {
-            dump('selectBy(aReverse='+aReverse+', aPage='+aPage+')\n');
-            var sections_vbox = document.getAnonymousElementByAttribute(this,
-                'anonid', 'searchery-sections');
             if (aPage) {
               // page up/down means switch section
               this._section += (aReverse?-1:1);
+              if (this._section < 0 || this._section >= this._sections.length) {
+                this.input._focus();
+                this._section = -1;
+              }
               dump('this._section = '+this._section+'\n');
 
-              var sections = sections_vbox.childNodes;
-              dump(' sections.length: '+sections.length+'\n');
-              for (var i=0; i<sections.length; i++) {
+              dump(' sections.length: '+this._sections.length+'\n');
+              for (var i=0; i<this._sections.length; i++) {
                 // mark the selected section as selected
-                sections[i].selected = (i == this._section);
+                this._sections[i].selected = (i == this._section);
               }
             } else {
               if (this._section == 0) {
@@ -94,7 +91,7 @@
                 }
               } else {
                 // a searchery section
-                sections_vbox.childNodes[this._section].selectBy(aReverse);
+                this._sections[this._section].selectBy(aReverse);
               }
             }
           } catch (ex) {
@@ -118,12 +115,10 @@
 
             dump('newSearch: '+query+'\n');
             for (var i=0; i<this._sections.length; i++) {
-              if (this._sections[i]) {
-                try {
-                  this._sections[i].newSearch(query);
-                } catch(e) {
-                  Components.utils.reportError(e);
-                }
+              try {
+                this._sections[i].newSearch(query);
+              } catch(e) {
+                Components.utils.reportError(e);
               }
             }
           } catch(e) {
@@ -178,6 +173,11 @@
           }
         ]]></setter>
       </property>
+      <method name="newSearch">
+        <parameter name="query"/>
+        <!-- implemented by subclasses as appropriate -->
+        <body></body>
+      </method>
     </implementation>
   </binding>
 
