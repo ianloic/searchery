@@ -50,12 +50,12 @@
               var url = item.getAttribute('url');
               self.input.textValue = url;
               handleURLBarCommand(event);
+              self.reallyClosePopup();
             }
+          } else if (event.keyCode == 27) {
+            self.reallyClosePopup();
           }
         }
-
-        // overrride closePopup with my own
-        //this.closePopup = this._closePopup
       ]]></constructor>
       <field name="_section">0</field>
       <method name="selectBy">
@@ -112,6 +112,9 @@
 
             this._lastQuery = query;
 
+            // make sure the popup is open
+            this.input.popupOpen = true;
+
             dump('newSearch: '+query+'\n');
             for (var i=0; i<this._sections.length; i++) {
               try {
@@ -129,7 +132,12 @@
       <method name="closePopup">
         <body>
           <![CDATA[
-          dump('closePopup\n');
+        ]]>
+        </body>
+      </method>
+      <method name="reallyClosePopup">
+        <body>
+          <![CDATA[
           if (this.mPopupOpen) {
             this.hidePopup();
             document.popupNode = null;
@@ -156,6 +164,7 @@
   <binding id="base-section" extends="xul:vbox">
     <content>
       <xul:hbox>
+        <xul:image class="searchery-disclosure-triangle" state="open"/>
         <xul:label class="searchery-section-header" xbl:inherits="value=title"/>
         <xul:spacer flex="1"/>
         <xul:image class="searchery-section-spinner"/>
@@ -220,13 +229,25 @@
         this.popup = this.parentNode.parentNode;
       ]]></constructor>
 
+      <property name="disabled">
+        <getter><![CDATA[
+          return this.hasAttribute('disabled');
+        ]]></getter>
+        <setter><![CDATA[
+          if (val) {
+            this.setAttribute('disabled', 'true');
+          } else {
+            this.removeAttribute('disabled');
+          }
+        ]]></setter>
+      </property>
       <method name="onPopupClick">
         <parameter name="event" />
         <body><![CDATA[
           // pass this up one binding...
           var item = this.richlistbox.selectedItem;
           var url = item.getAttribute('url');
-          this.popup.closePopup();
+          this.popup.reallyClosePopup();
           this.popup.input.textValue = url;
           handleURLBarCommand(event);
         ]]></body>
@@ -247,7 +268,6 @@
           this.richlistbox.selectedIndex = newIndex;
         ]]></body>
       </method>
-
       <property name="selected">
         <getter><![CDATA[
           return this.hasAttribute('selected');
@@ -302,6 +322,13 @@
         ]]></body>
       </method>
     </implementation>
+    <handlers>
+      <handler event="DisclosureChanged"><![CDATA[
+        dump('disclosure changed\n');
+        dump(' open='+event.originalTarget.open+'\n');
+        this.disabled = !event.originalTarget.open;
+      ]]></handler>
+    </handlers>
   </binding>
 
   <binding id="engines-section" extends="#section">
@@ -340,5 +367,34 @@
 
     </implementation>
 
+  </binding>
+
+  <binding id="disclosure-triangle" extends="xul:image">
+    <implementation>
+      <property name="state">
+        <getter><![CDATA[
+          return this.getAttribute('state');
+        ]]></getter>
+        <setter><![CDATA[
+          this.setAttribute('state', val);
+          var event = document.createEvent('Event');
+          event.initEvent('DisclosureChanged', true, true);
+          this.dispatchEvent(event);
+        ]]></setter>
+      </property>
+      <property name="open">
+        <getter><![CDATA[
+          return this.state === 'open';
+        ]]></getter>
+        <setter><![CDATA[
+          this.state = val?'open':'closed';
+        ]]></setter>
+      </property>
+    </implementation>
+    <handlers>
+      <handler event="click">
+        this.open = !this.open;
+      </handler>
+    </handlers>
   </binding>
 </bindings>

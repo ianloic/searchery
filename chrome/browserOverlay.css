@@ -84,3 +84,20 @@ vbox[anonid="searchery-sections"] > vbox {
 .searchery-section[loading="true"] .searchery-section-spinner {
   list-style-image: url(chrome://global/skin/icons/loading_16.png);
 }
+
+image.searchery-disclosure-triangle {
+  -moz-binding: url(chrome://searchery/content/bindings.xml#disclosure-triangle);
+}
+image.searchery-disclosure-triangle[state="open"] {
+  list-style-image: url(disclosure-open.png)
+}
+image.searchery-disclosure-triangle[state="closed"] {
+  list-style-image: url(disclosure-closed.png)
+}
+.searchery-section-places .searchery-disclosure-triangle {
+  display: none;
+}
+
+.searchery-section[disabled="true"] richlistbox {
+  display: none;
+}
