@@ -79,7 +79,7 @@ vbox[anonid="searchery-sections"] > vbox {
 .searchery-section-spinner {
   width: 16px;
   height: 16px;
-  list-style-image: url(chrome://global/skin/icons/notloading_16.png);
+  list-style-image: none;
 }
 .searchery-section[loading="true"] .searchery-section-spinner {
   list-style-image: url(chrome://global/skin/icons/loading_16.png);
