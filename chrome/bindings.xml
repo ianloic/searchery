@@ -10,9 +10,8 @@
            extends="chrome://browser/content/urlbarBindings.xml#urlbar-rich-result-popup">
     <content ignorekeys="true">
       <xul:vbox anonid="searchery-sections">
-        <xul:vbox selected="true">
-          <xul:label class="searchery-section-header"
-              anonid="searchery-places-header" value="History and Bookmarks" />
+        <xul:vbox selected="true" class="searchery-section-places"
+                  title="History and Bookmarks">
           <xul:richlistbox anonid="richlistbox" class="autocomplete-richlistbox"
               flex="1"/>
         </xul:vbox>
@@ -21,7 +20,6 @@
 
     <implementation implements="nsIAutoCompletePopup">
       <constructor><![CDATA[
-        dump('hello, world\n');
         this._sections.push(null);
         var sections_vbox = document.getAnonymousElementByAttribute(this,
             'anonid', 'searchery-sections');
@@ -42,12 +40,12 @@
         var self = this;
         // this listener is attached to the input when it can be
         this._inputListener = function (event) {
-          self.newSearch(self.input.value);
+          self.newSearch();
         }
 
 
         // overrride closePopup with my own
-        this.closePopup = this._closePopup
+        //this.closePopup = this._closePopup
       ]]></constructor>
       <field name="_section">0</field>
       <field name="_sections">new Array()</field>
@@ -63,6 +61,17 @@
             if (aPage) {
               // page up/down means switch section
               this._section += (aReverse?-1:1);
+              dump('this._section = '+this._section+'\n');
+              var sections = this.sections_vbox.childNodes;
+              dump(' sections.length: '+sections.length+'\n');
+              for (var i=0; i<sections.length; i++) {
+                dump('check out: '+sections[i]+'\n');
+                if (i == this._section) {
+                  sections[i].setAttribute('selected', 'true');
+                } else {
+                  sections[i].removeAttribute('selected');
+                }
+              }
             } else {
               this.selectedIndex = this.getNextIndex(aReverse, 1,
                   this.selectedIndex, this._matchCount - 1);
@@ -78,18 +87,23 @@
       </method>
 
       <method name="newSearch">
-        <parameter name="query"/>
         <body><![CDATA[
-          dump('newSearch: '+query+'\n');
-          for (var i=0; i<this._sections.length; i++) {
-            if (this._sections[i]) {
-              try {
-                this._sections[i].newSearch(query);
-              } catch(e) {
-                Components.utils.reportError(e);
+          try {
+            var query = this.input.controller.searchString;
+
+            dump('newSearch: '+query+'\n');
+            for (var i=0; i<this._sections.length; i++) {
+              if (this._sections[i]) {
+                try {
+                  this._sections[i].newSearch(query);
+                } catch(e) {
+                  Components.utils.reportError(e);
+                }
               }
             }
-          }
+          } catch(e) {
+          Components.utils.reportError(e);
+        }
         ]]></body>
       </method>
 
@@ -105,38 +119,25 @@
 
     <handlers>
       <handler event="popupshowing"><![CDATA[
-        dump('popup showing\n');
-        dump('input: '+this.input+'\n');
-        dump('input.value: '+this.input.value+'\n');
-        dump('input.controller: '+this.input.controller+'\n');
-        this.newSearch(this.input.value);
+        this.newSearch();
         this.input.addEventListener('input', this._inputListener, false);
       ]]></handler>
       <handler event="popuphiding"><![CDATA[
-        dump('popup hiding\n');
-        dump('input: '+this.input+'\n');
         this.input.removeEventListener('input', this._inputListner, false);
       ]]></handler>
     </handlers>
   </binding>
 
-  <binding id="section" extends="xul:vbox">
+  <binding id="base-section" extends="xul:vbox">
     <content>
       <xul:hbox>
         <xul:label class="searchery-section-header" xbl:inherits="value=title"/>
         <xul:spacer flex="1"/>
         <xul:image class="searchery-section-spinner"/>
       </xul:hbox>
-      <xul:richlistbox class="autocomplete-richlistbox searchery-richlisbox"
-                       anonid="richlistbox"/>
+      <children/>
     </content>
     <implementation>
-      <field name="richlistbox">null</field>
-      <field name="lastQuery">''</field>
-      <constructor><![CDATA[
-        this.richlistbox = document.getAnonymousElementByAttribute(this,
-            'anonid', 'richlistbox');
-      ]]></constructor>
       <property name="loading">
         <setter><![CDATA[
           if (val) {
@@ -146,6 +147,48 @@
           }
         ]]></setter>
       </property>
+    </implementation>
+  </binding>
+
+  <binding id="places-section" extends="#base-section">
+    <implementation>
+      <method name="onPopupClick">
+        <parameter name="event" />
+        <body><![CDATA[
+          // pass this up one binding...
+          return this.parentNode.parentNode.onPopupClick(event);
+        ]]></body>
+      </method>
+    </implementation>
+  </binding>
+
+  <binding id="section" extends="#base-section">
+    <implementation>
+      <field name="richlistbox">null</field>
+      <field name="lastQuery">''</field>
+      <constructor><![CDATA[
+        this.richlistbox = document.createElement('richlistbox');
+        this.richlistbox.className = 'autocomplete-richlistbox searchery-richlistbox';
+        this.richlistbox.setAttribute('flex', '1');
+        this.appendChild(richlistbox);
+
+        this.popup = this.parentNode.parentNode;
+      ]]></constructor>
+
+      <method name="onPopupClick">
+        <parameter name="event" />
+        <body><![CDATA[
+          // pass this up one binding...
+          dump('popup click, yo\n');
+          var item = this.richlistbox.selectedItem;
+          var url = item.getAttribute('url');
+          dump(url+'\n');
+          this.popup.closePopup();
+          this.popup.input.textValue = url;
+          handleURLBarCommand(event);
+        ]]></body>
+      </method>
+
       <method name="clearResults">
         <body><![CDATA[
           // clear the richlistbox

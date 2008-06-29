@@ -46,6 +46,11 @@ richlistitem[type ~= 'searchery'][selected="true"] > hbox {
   -moz-binding: url(chrome://searchery/content/bindings.xml#autocomplete-rich-result-popup) !important;
 }
 
+
+.searchery-section-places {
+  -moz-binding: url(chrome://searchery/content/bindings.xml#places-section) !important;
+}
+
 .searchery-section {
   -moz-binding: url(chrome://searchery/content/bindings.xml#section) !important;
 }

@@ -33,7 +33,7 @@
           this._xhr.addEventListener("load", function(evt) { self.onLoad(evt); },
                                      false);
           this._xhr.addEventListener("error", function(evt) { self.onError(evt); },
-                                 false);
+                                     false);
 
           this.loading = true;
 
