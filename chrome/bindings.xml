@@ -45,8 +45,9 @@
           self.newSearch(self.input.value);
         }
 
-        dump('this.__proto__: '+this.__proto__+'\n');
-        dump('this.__proto__.newSearch: '+this.__proto__.newSearch+'\n');
+
+        // overrride closePopup with my own
+        this.closePopup = this._closePopup
       ]]></constructor>
       <field name="_section">0</field>
       <field name="_sections">new Array()</field>
@@ -92,6 +93,14 @@
         ]]></body>
       </method>
 
+      <method name="_closePopup">
+        <body><![CDATA[
+          dump('closePopup\n');
+          // call the superclass's implementation
+          this.__proto__.closePopup();
+        ]]></body>
+      </method>
+
     </implementation>
 
     <handlers>
@@ -114,14 +123,48 @@
   <binding id="section" extends="xul:vbox">
     <content>
       <xul:label class="searchery-section-header" xbl:inherits="value=title"/>
-      <xul:richlistbox class="searchery-richlisbox" anonid="richlistbox"/>
+      <xul:richlistbox class="autocomplete-richlistbox searchery-richlisbox"
+                       anonid="richlistbox"/>
     </content>
     <implementation>
       <field name="richlistbox">null</field>
+      <field name="lastQuery">''</field>
       <constructor><![CDATA[
         this.richlistbox = document.getAnonymousElementByAttribute(this,
             'anonid', 'richlistbox');
       ]]></constructor>
+      <method name="clearResults">
+        <body><![CDATA[
+          // clear the richlistbox
+          while(this.richlistbox.firstChild) {
+            this.richlistbox.removeChild(this.richlistbox.firstChild);
+          }
+        ]]></body>
+      </method>
+      <method name="addResult">
+        <parameter name="uri"/>
+        <parameter name="title"/>
+        <parameter name="image"/>
+        <parameter name="cssClass"/>
+        <body><![CDATA[
+          // trim the leading/trailing whitespace
+          var trimmedSearchString =
+              this.lastQuery.replace(/^\s+/, "").replace(/\s+$/, "");
+
+          // need to create a new item
+          var item = document.createElement("richlistitem");
+
+          // set these attributes before we set the class
+          // so that we can use them from the contructor
+          item.setAttribute("image", image);
+          item.setAttribute("url", uri);
+          item.setAttribute("title", title);
+          item.setAttribute("type", cssClass);
+          item.setAttribute("text", trimmedSearchString);
+          item.className = "autocomplete-richlistitem";
+          this.richlistbox.appendChild(item);
+        ]]></body>
+      </method>
       <method name="newSearch">
         <parameter name="query"/>
         <body><![CDATA[
@@ -134,16 +177,13 @@
   <binding id="engines-section" extends="#section">
 
     <implementation>
-      <!-- segv for some reason
-      <field id="_searchService">
-        Components.classes['@mozilla.org/browser/search-service;1']
-            .getService(Components.interfaces.nsIBrowserSearchService);
-      </field>
-      -->
-
       <method name="newSearch">
         <parameter name="query"/>
         <body><![CDATA[
+          // save the query
+          // FIXME: refactor this into a baseclass somehow
+          this.lastQuery = query;
+
           dump('engines newSearch\n');
           // make sure we have a reference to the search service
           if (!this._searchService) {
@@ -153,24 +193,16 @@
           }
 
           // clear the richlistbox
-          while(this.richlistbox.firstChild) {
-            this.richlistbox.removeChild(this.richlistbox.firstChild);
-          }
+          this.clearResults();
 
           // fill it with search engines...
           var engines = this._searchService.getVisibleEngines({ });
           for (var i=0; i<engines.length; i++) {
             var submission = engines[i].getSubmission(query, 'text/html');
-            var item = document.createElement('label');
-            item.setAttribute('value', 'Search for "' + query + '" on ' +
-                              engines[i].name);
-            this.richlistbox.appendChild(item);
-            /*
             this.addResult(submission.uri.spec,
                 'Search for "'+query+'" on '+engines[i].name,
                 engines[i].iconURI.spec,
                 'suggesthint searchery srch-searchengines');
-            */
           }
 
         ]]></body>

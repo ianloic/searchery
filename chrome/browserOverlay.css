@@ -52,6 +52,9 @@ richlistitem[type ~= 'searchery'][selected="true"] > hbox {
 .searchery-section#searchery-engines {
   -moz-binding: url(chrome://searchery/content/bindings.xml#engines-section) !important;
 }
+.searchery-section#searchery-google {
+  -moz-binding: url(chrome://searchery/content/websearch.xml#google-section) !important;
+}
 
 .searchery-section-header {
   font-size: large;
