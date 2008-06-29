@@ -122,7 +122,11 @@
 
   <binding id="section" extends="xul:vbox">
     <content>
-      <xul:label class="searchery-section-header" xbl:inherits="value=title"/>
+      <xul:hbox>
+        <xul:label class="searchery-section-header" xbl:inherits="value=title"/>
+        <xul:spacer flex="1"/>
+        <xul:image class="searchery-section-spinner"/>
+      </xul:hbox>
       <xul:richlistbox class="autocomplete-richlistbox searchery-richlisbox"
                        anonid="richlistbox"/>
     </content>
@@ -133,6 +137,15 @@
         this.richlistbox = document.getAnonymousElementByAttribute(this,
             'anonid', 'richlistbox');
       ]]></constructor>
+      <property name="loading">
+        <setter><![CDATA[
+          if (val) {
+            this.setAttribute('loading', 'true');
+          } else {
+            this.removeAttribute('loading');
+          }
+        ]]></setter>
+      </property>
       <method name="clearResults">
         <body><![CDATA[
           // clear the richlistbox

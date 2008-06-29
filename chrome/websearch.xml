@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<!DOCTYPE bindings PUBLIC "-//MOZILLA//DTD XBL V1.0//EN" "http://www.mozilla.org/xbl">
+
+<bindings
+    xmlns="http://www.mozilla.org/xbl"
+    xmlns:xbl="http://www.mozilla.org/xbl"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <binding id="websearch-base" extends="bindings.xml#section">
+    <implementation>
+      <method name="newSearch">
+        <parameter name="query"/>
+        <body><![CDATA[
+          dump('websearch: newSearch\n');
+
+          // save the query
+          // FIXME: refactor this into a baseclass somehow
+          this.lastQuery = query;
+
+          if (this._xhr) {
+            // cancel any in-progress search
+            this._xhr.abort();
+            this._xhr = null;
+          }
+
+          // create an XMLHttpRequest object to talk to the server
+          this._xhr = new XMLHttpRequest();
+
+          // add event handlers
+          this._xhr.QueryInterface(Ci.nsIDOMEventTarget);
+          var self = this;
+          this._xhr.addEventListener("load", function(evt) { self.onLoad(evt); },
+                                     false);
+          this._xhr.addEventListener("error", function(evt) { self.onError(evt); },
+                                 false);
+
+          this.loading = true;
+
+          // make the request
+          this.makeRequest(query);
+        ]]></body>
+      </method>
+      <method name="onLoad">
+        <body><![CDATA[
+          if (this._xhr.readyState == 4) {
+            this.clearResults();
+            this.handleResponse();
+            this._xhr.abort();
+            this._xhr = null;
+            this.loading = false;
+          }
+        ]]></body>
+      </method>
+      <method name="onError">
+        <body><![CDATA[
+          Components.utils.reportError();
+          this._xhr.abort();
+          this._xhr = null;
+          this.loading = false;
+        ]]></body>
+      </method>
+      <method name="makeRequest">
+        <!-- override me please -->
+        <body></body>
+      </method>
+      <method name="handleResponse">
+        <!-- override me please -->
+        <body></body>
+      </method>
+    </implementation>
+  </binding>
+
+  <binding id="google-section" extends="#websearch-base">
+    <implementation>
+      <field name="GOOGLE_API_KEY">'ABQIAAAAB5EMLNLcl9tsZ4hqbawAfxRs0Gcr6QwT8A'+
+        '5mowOxfafuDSDZ8xRyV6raPQ50DzlWqr9-QcqYSI5gOg'</field>
+      <field name="GOOGLE_API_REFERRER">'http://ianloic.com/'</field>
+
+      <constructor><![CDATA[
+        // import JSON helper
+        Cu.import("resource://gre/modules/JSON.jsm");
+        ]]>
+      </constructor>
+      <method name="makeRequest">
+        <parameter name="query"/>
+        <body><![CDATA[
+          this._xhr.open('GET',
+              'http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q=' +
+              encodeURIComponent(query), true);
+          this._xhr.send(null);
+          ]]></body>
+      </method>
+      <method name="handleResponse">
+        <body><![CDATA[
+          var data;
+          try {
+            data = JSON.fromString(this._xhr.responseText);
+          } catch (e) {
+            // if we get an error here let's handle it with a smile
+            return false;
+          }
+          for (var i=0; i<data.responseData.results.length;i++) {
+            var result = data.responseData.results[i];
+            this.addResult(result.unescapedUrl, result.titleNoFormatting,
+                'http://www.google.com/favicon.ico', 'srch-google');
+          }
+          return true;
+        ]]></body>
+      </method>
+    </implementation>
+  </binding>
+
+  <binding id="amazon-section" extends="#websearch-base">
+    <implementation>
+      <constructor><![CDATA[
+        ]]>
+      </constructor>
+      <method name="makeRequest">
+        <parameter name="query"/>
+        <body><![CDATA[
+          this._xhr.open('GET', 'http://ecs.amazonaws.com/onca/xml?' +
+                         'Service=AWSECommerceService&' +
+                         'AWSAccessKeyId=1BTS253HGNBMVK0CP6G2&' +
+                         'Operation=ItemSearch&SearchIndex=Blended&' +
+                         'AssociateTag=httpianmckell-20&' +
+                         'Version=2008-04-07&Keywords=' +
+                          encodeURIComponent(query), true);
+          this._xhr.send(null);
+          ]]></body>
+      </method>
+      <method name="handleResponse">
+        <body><![CDATA[
+          if (this._xhr.responseXML == null) {
+            return false;
+          }
+          var items = this._xhr.responseXML.getElementsByTagName('Item');
+          for (var i=0; i<items.length && i<5; i++) {
+            var item = items[i];
+            this.addResult(
+                item.getElementsByTagName('DetailPageURL')[0].textContent,
+                item.getElementsByTagName('Title')[0].textContent,
+                'http://www.amazon.com/favicon.ico', 'srch-amazon');
+          }
+          return true;
+        ]]></body>
+      </method>
+    </implementation>
+  </binding>
+
+</bindings>

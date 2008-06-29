@@ -23,13 +23,14 @@
   background-repeat: no-repeat;
 }
 */
+/*
 richlistitem[type ~= 'searchery'] > hbox {
   background-color: #cbeaff;
 }
 
 richlistitem[type ~= 'searchery'][selected="true"] > hbox {
   background-color: transparent;
-}
+}*/
 
 #urlbar-icons > #searchery-icon {
   list-style-image: url(chrome://searchery/content/magnifier.png);
@@ -60,9 +61,16 @@ richlistitem[type ~= 'searchery'][selected="true"] > hbox {
 }
 
 .searchery-section-header {
-  font-size: large;
   font-weight: bold;
 }
 vbox[selected="true"] .searchery-section-header {
   background-color: #cbeaff;
+}
+.searchery-section-spinner {
+  width: 16px;
+  height: 16px;
+  list-style-image: url(chrome://global/skin/icons/notloading_16.png);
+}
+.searchery-section[loading="true"] .searchery-section-spinner {
+  list-style-image: url(chrome://global/skin/icons/loading_16.png);
 }
