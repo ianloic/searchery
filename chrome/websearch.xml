@@ -12,8 +12,6 @@
       <method name="newSearch">
         <parameter name="query"/>
         <body><![CDATA[
-          dump('websearch: newSearch\n');
-
           // save the query
           // FIXME: refactor this into a baseclass somehow
           this.lastQuery = query;

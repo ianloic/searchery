@@ -41,8 +41,8 @@
               var url = item.getAttribute('url');
               self.input.textValue = url;
               handleURLBarCommand(event);
-              self.reallyClosePopup();
             }
+            self.reallyClosePopup();
           } else if (event.keyCode == 27) {
             self.reallyClosePopup();
           }
@@ -64,9 +64,7 @@
                 this.input._focus();
                 this._section = 0;
               }
-              dump('this._section = '+this._section+'\n');
 
-              dump(' sections.length: '+this._sections.length+'\n');
               for (var i=0; i<this._sections.length; i++) {
                 // mark the selected section as selected
                 this._sections[i].selected = (i == this._section);
@@ -106,7 +104,6 @@
             // make sure the popup is open
             this.input.popupOpen = true;
 
-            dump('newSearch: '+query+'\n');
             for (var i=0; i<this._sections.length; i++) {
               try {
                 this._sections[i].newSearch(query);
@@ -248,7 +245,6 @@
       <method name="selectBy">
         <parameter name="aReverse"/>
         <body><![CDATA[
-          dump('selectBy!!!!\n');
           var newIndex = this.richlistbox.selectedIndex +
               (aReverse?-1:1);
           if (newIndex < 0) {
@@ -316,8 +312,6 @@
     </implementation>
     <handlers>
       <handler event="DisclosureChanged"><![CDATA[
-        dump('disclosure changed\n');
-        dump(' open='+event.originalTarget.open+'\n');
         this.disabled = !event.originalTarget.open;
       ]]></handler>
     </handlers>
@@ -332,7 +326,6 @@
           // FIXME: refactor this into a baseclass somehow
           this.lastQuery = query;
 
-          dump('engines newSearch\n');
           // make sure we have a reference to the search service
           if (!this._searchService) {
             this._searchService =
@@ -363,6 +356,15 @@
 
   <binding id="disclosure-triangle" extends="xul:image">
     <implementation>
+      <constructor><![CDATA[
+        // read the id of the binding we're inside of
+        this._id = document.getBindingParent(this).getAttribute('id');
+        // make up a pref name
+        this._pref = 'extensions.searchery.section-enabled.' + this._id
+        // restore the open state
+        this.open = Application.prefs.getValue(this._pref, true);
+      ]]></constructor>
+
       <property name="state">
         <getter><![CDATA[
           return this.getAttribute('state');
@@ -380,6 +382,7 @@
         ]]></getter>
         <setter><![CDATA[
           this.state = val?'open':'closed';
+          Application.prefs.setValue(this._pref, val?true:false);
         ]]></setter>
       </property>
     </implementation>
