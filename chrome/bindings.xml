@@ -15,26 +15,17 @@
           <xul:richlistbox anonid="richlistbox" class="autocomplete-richlistbox"
               flex="1"/>
         </xul:vbox>
+        <xul:vbox class="searchery-section" title="Search Engines" id="searchery-engines" />
+        <xul:vbox class="searchery-section" title="Google Results" id="searchery-google" />
+        <xul:vbox class="searchery-section" title="Amazon Results" id="searchery-amazon" />
       </xul:vbox>
     </content>
 
     <implementation implements="nsIAutoCompletePopup">
       <constructor><![CDATA[
-        var sections_vbox = document.getAnonymousElementByAttribute(this,
-            'anonid', 'searchery-sections');
-        this._sections = sections_vbox.childNodes;
-        function makeSection(title, id) {
-          var section = document.createElement('vbox');
-          section.className = 'searchery-section';
-          section.setAttribute('title', title);
-          section.setAttribute('id', id);
-          sections_vbox.appendChild(section);
-        }
-
-        makeSection('Search Engines', 'searchery-engines');
-        makeSection('Google Results', 'searchery-google');
-        makeSection('Amazon Engines', 'searchery-amazon');
-
+        this._sections = document.getAnonymousElementByAttribute(this,
+            'anonid', 'searchery-sections').childNodes;
+        
         var self = this;
         // these listeners are attached to the input when they can be
         this._inputListener = function (event) {
