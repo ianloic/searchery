@@ -5,7 +5,6 @@ XPIFILE=web/searchery-$(VERSION).xpi
 XPIDL=/usr/lib/xulrunner-1.9b5/xpidl -I/usr/share/idl/xulrunner-1.9b5/stable/
 FIREFOX=firefox
 
-COMPONENTS=$(shell echo components/*.js)
 CHROMEFILES=$(shell find chrome/)
 
 all: $(XPIFILE)
@@ -13,7 +12,7 @@ all: $(XPIFILE)
 run: all
 	$(FIREFOX) -no-remote -P searchery -jsconsole
 
-$(XPIFILE): $(COMPONENTS) $(CHROMEFILES) chrome.manifest install.rdf .gitignore xpi-ignore
+$(XPIFILE): $(CHROMEFILES) chrome.manifest install.rdf .gitignore xpi-ignore
 	rm -rf .xpistage $(XPIFILE)
 	mkdir -p .xpistage
 	rsync -a --exclude-from .gitignore --exclude-from xpi-ignore . .xpistage
