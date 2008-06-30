@@ -21,8 +21,8 @@ var Searchery = {};
 
 // initialization
 Searchery.windowOnLoad = function() {
-  if (Application.prefs.get("searchery.firstrun").value) {
-    Application.prefs.setValue("searchery.firstrun", false);
+  if (Application.prefs.get("extensions.searchery.firstrun").value) {
+    Application.prefs.setValue("extensions.searchery.firstrun", false);
     // show the welcome page in a tab
     gBrowser.selectedTab =
       gBrowser.addTab("http://searchery.ianloic.com/welcome.html");
@@ -32,7 +32,7 @@ Searchery.windowOnLoad = function() {
   this.urlbar = document.getElementById('urlbar');
 
   var hide_searchbox_pref =
-    Application.prefs.get('searchery.hide-searchbox');
+    Application.prefs.get('extensions.searchery.hide-searchbox');
 
   // hide the searchbar if appropriate
   function show_or_hide_searchbox() {
