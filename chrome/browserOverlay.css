@@ -17,24 +17,9 @@
  *  along with Searchery.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*richlistitem[type ~= 'searchery'] > hbox:first-child {
-  background-image: url(chrome://searchery/content/background.png);
-  background-position: bottom right;
-  background-repeat: no-repeat;
-}
-*/
-/*
-richlistitem[type ~= 'searchery'] > hbox {
-  background-color: #cbeaff;
-}
-
-richlistitem[type ~= 'searchery'][selected="true"] > hbox {
-  background-color: transparent;
-}*/
-
 #urlbar-icons > #searchery-icon {
-  list-style-image: url(chrome://searchery/content/magnifier.png);
-  visibility: visible !important;
+  list-style-image: none;
+  visibility: collapse !important;
 }
 
 #urlbar-icons > #searchery-icon[addengines='true'] {
@@ -45,8 +30,6 @@ richlistitem[type ~= 'searchery'][selected="true"] > hbox {
 #PopupAutoCompleteRichResult {
   -moz-binding: url(chrome://searchery/content/bindings.xml#autocomplete-rich-result-popup) !important;
 }
-
-
 
 searchery-section {
   display: -moz-box;

@@ -26,28 +26,8 @@
   <script type="text/javascript"
     src="chrome://searchery/content/browserOverlay.js"></script>
 
-  <popupset>
-    <menupopup id="searchery-menu">
-      <menuitem id="srch-enable-search-engines" label="Enable search engines" 
-        type="checkbox" boolpref="searchery.engines-enabled"/>
-      <menuitem id="srch-manage-search-engines" 
-        label="Manage search engines..."/>
-      <menuseparator />
-      <menuitem id="srch-engine-google" label="Show Google web search results" 
-        type="checkbox" boolpref="searchery.engine.google"/>
-      <menuitem id="srch-engine-amazon" 
-        label="Show Amazon product search results" type="checkbox" 
-        boolpref="searchery.engine.amazon"/>
-      <menuseparator />
-      <menuitem id="srch-hide-searchbox"
-        label="Hide the legacy search box" type="checkbox"
-        boolpref="searchery.hide-searchbox"/>
-    </menupopup>
-  </popupset>
-
   <hbox id="urlbar-icons">
-    <image class="urlbar-icon" id="searchery-icon" 
-      context="searchery-menu" popup="searchery-menu"
+    <image class="urlbar-icon" id="searchery-icon"
       insertbefore="go-button" />
   </hbox>
 

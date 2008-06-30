@@ -30,10 +30,6 @@ Searchery.windowOnLoad = function() {
 
   // add ourselves to the urlbar autocomplete list
   this.urlbar = document.getElementById('urlbar');
-  /*
-  this.urlbar.setAttribute('autocompletesearch',
-      'history srch-amazon srch-google srch-searchengines');
- */
 
   var hide_searchbox_pref =
     Application.prefs.get('searchery.hide-searchbox');
@@ -56,31 +52,6 @@ Searchery.windowOnLoad = function() {
       show_or_hide_searchbox();
       });
 
-  // add handlers for the menu
-  this.menu = document.getElementById('searchery-menu');
-
-  // automatically handle boolean prefs on checkbox menu items
-  var item = this.menu.firstChild;
-  while (item) {
-    if (item.hasAttribute('boolpref')) {
-      // set the checked state to the pref value
-      if (Application.prefs.getValue(item.getAttribute('boolpref'), false)) {
-        item.setAttribute('checked', true);
-      }
-      item.addEventListener('command', function(event) {
-          var item = event.target;
-          // set the prev value to the checked state
-          Application.prefs.setValue(item.getAttribute('boolpref'),
-            item.hasAttribute('checked'));
-      }, false);
-    }
-    item = item.nextSibling;
-  }
-
-  // hook up the "manage" menu item
-  var manage_item = document.getElementById('srch-manage-search-engines');
-  manage_item.addEventListener('command', Searchery.openManager, false);
-
   // trick the Firefox browser search functionality into using the urlbar
   // when we've hidden the search bar
   BrowserSearch.__defineGetter__('searchBar', function() {
@@ -91,56 +62,7 @@ Searchery.windowOnLoad = function() {
   // wire up the 'searchButton' property to our ui
   this.urlbar.searchButton = document.getElementById('searchery-icon');
 
-  // onpopupshowing event for the menu
-  this.menu.addEventListener('popupshowing', function(event) {
-      // clear out old 'add engine' menuitems
-      var item = Searchery.menu.firstChild;
-      while (item) {
-        if (item.hasAttribute('addengine')) {
-          var next = item.nextSibling;
-          Searchery.menu.removeChild(item);
-          item = next;
-        } else {
-          item = item.nextSibling;
-        }
-      }
 
-      // add them if we need to
-
-      var engines = getBrowser().mCurrentBrowser.engines;
-      if (engines && engines.length > 0) {
-        var separator = document.createElement('menuseparator');
-        separator.setAttribute('addengine', 'true');
-        Searchery.menu.appendChild(separator);
-        for (var i=0; i<engines.length; i++) {
-          var menuitem = document.createElement('menuitem');
-          menuitem.setAttribute('addengine', 'true');
-          menuitem.setAttribute('label', 'Add "'+engines[i].title+'"...');
-          Searchery.menu.appendChild(menuitem);
-        }
-      }
-    }, false);
-
-  // we're putting more in the autocomplete - double its size
-  //this.urlbar.maxRows *= 2;
-
-  // mess with the autocomplete results panel
-  this.resultsPanel = document.getElementById('PopupAutoCompleteRichResult');
-}
-
-Searchery.openManager = function(event) {
-  var wm = Components.classes['@mozilla.org/appshell/window-mediator;1']
-    .getService(Components.interfaces.nsIWindowMediator);
-
-  var win = wm.getMostRecentWindow('Browser:SearchManager');
-  if (win) {
-    win.focus()
-  } else {
-    setTimeout(function () {
-      openDialog('chrome://browser/content/search/engineManager.xul',
-                 '_blank', 'chrome,dialog,modal,centerscreen');
-    }, 0);
-  }
 }
 
 window.addEventListener('load', function() { Searchery.windowOnLoad() },
