@@ -155,6 +155,8 @@
         <xul:image class="searchery-disclosure-triangle" state="open"/>
         <xul:label class="searchery-section-header" xbl:inherits="value=title"/>
         <xul:spacer flex="1"/>
+        <xul:image class="searchery-section-configure"
+                   tooltiptext="Configure..."/>
         <xul:image class="searchery-section-spinner"/>
       </xul:hbox>
       <children/>
@@ -345,13 +347,26 @@
                 engines[i].iconURI.spec,
                 'suggesthint searchery srch-searchengines');
           }
-
         ]]></body>
       </method>
-      -->
-
     </implementation>
+    <handlers>
+      <handler event="ConfigureSection"><![CDATA[
+        this.popup.reallyClosePopup();
+        var wm = Components.classes['@mozilla.org/appshell/window-mediator;1']
+          .getService(Components.interfaces.nsIWindowMediator);
 
+        var win = wm.getMostRecentWindow('Browser:SearchManager');
+        if (win) {
+          win.focus()
+        } else {
+          setTimeout(function () {
+            openDialog('chrome://browser/content/search/engineManager.xul',
+                       '_blank', 'chrome,dialog,modal,centerscreen');
+          }, 0);
+        }
+      ]]></handler>
+    </handlers>
   </binding>
 
   <binding id="disclosure-triangle" extends="xul:image">
@@ -392,4 +407,15 @@
       </handler>
     </handlers>
   </binding>
+
+  <binding id="configure" extends="xul:image">
+    <handlers>
+      <handler event="click"><![CDATA[
+        var evt = document.createEvent('Event');
+        evt.initEvent('ConfigureSection', true, true);
+        this.dispatchEvent(evt);
+      ]]></handler>
+    </handlers>
+  </binding>
+
 </bindings>
