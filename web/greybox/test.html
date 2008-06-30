@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>GreyBox Redux</title>
+    <script type="text/javascript" src="http://jquery.com/src/latest/"></script>
+    <script type="text/javascript" src="greybox.js"></script>
+    <link href="greybox.css" rel="stylesheet" type="text/css" media="all" />
+    <script type="text/javascript">
+      var GB_ANIMATION = true;
+      $(document).ready(function(){
+        $("a.greybox").click(function(){
+          var t = this.title || $(this).text() || this.href;
+          GB_show(t,this.href,470,600);
+          return false;
+        });
+      });
+    </script>
+</head>
+<body>
+<h1>Greybox Redux</h1>
+
+<p>Only 1.2kb using the <a href="http://jquery.com/">jQuery</a> library
+(compared to over 12kb for the original).</p>
+<p>Completely unobtrusive - no need to embed Javascript into your site.</p>
+<p><b><a href="greybox.tar">Download Greybox Redux</a></b></p>
+<p>All original code by: <a href="http://amix.dk">4mir Salihefendic</a></p>
+
+<h2 id="headline">See it in action:</h2>
+<ul>
+  <li><a href="http://google.com/" title="Google" class="greybox">Launch Google</a></li>
+  <li><a href="http://yahoo.com/" title="Yahoo" class="greybox">Visit Yahoo</a></li>
+  <li><a href="http://msn.com/" class="greybox">Microsoft would like a visit.</a></li>
+  <li><a href="http://jquery.com/" class="greybox">jQuery Rocks!</a></li>
+</ul>
+</body>
+</html>

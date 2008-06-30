@@ -29,6 +29,7 @@ body {
   min-height: 400px;
 }
 #footer {
+  clear: both;
   font-size: small;
   margin-top: 25px;
   color: #999;
@@ -59,3 +60,5 @@ body {
   border-color: black;
   background: white;
 }
+
+a img { border: none; }
