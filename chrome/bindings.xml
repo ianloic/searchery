@@ -9,15 +9,15 @@
   <binding id="autocomplete-rich-result-popup"
            extends="chrome://browser/content/urlbarBindings.xml#urlbar-rich-result-popup">
     <content ignorekeys="true">
-      <xul:vbox anonid="searchery-sections">
-        <xul:vbox class="searchery-section-places" selected="true"
-                  title="History and Bookmarks">
+      <xul:vbox anonid="searchery-sections" flex="1">
+        <xul:searchery-section title="History and Bookmarks"
+                               id="searchery-places" selected="true">
           <xul:richlistbox anonid="richlistbox" class="autocomplete-richlistbox"
-              flex="1"/>
-        </xul:vbox>
-        <xul:vbox class="searchery-section" title="Search Engines" id="searchery-engines" />
-        <xul:vbox class="searchery-section" title="Google Results" id="searchery-google" />
-        <xul:vbox class="searchery-section" title="Amazon Results" id="searchery-amazon" />
+                           flex="1"/>
+        </xul:searchery-section>
+        <xul:searchery-section title="Search Engines" id="searchery-engines" />
+        <xul:searchery-section title="Google Results" id="searchery-google" />
+        <xul:searchery-section title="Amazon Results" id="searchery-amazon" />
       </xul:vbox>
     </content>
 
@@ -25,7 +25,7 @@
       <constructor><![CDATA[
         this._sections = document.getAnonymousElementByAttribute(this,
             'anonid', 'searchery-sections').childNodes;
-        
+
         var self = this;
         // these listeners are attached to the input when they can be
         this._inputListener = function (event) {
@@ -152,7 +152,7 @@
     </handlers>
   </binding>
 
-  <binding id="base-section" extends="xul:vbox">
+  <binding id="base-section">
     <content>
       <xul:hbox>
         <xul:image class="searchery-disclosure-triangle" state="open"/>
@@ -186,7 +186,8 @@
         <parameter name="event" />
         <body><![CDATA[
           // pass this up one binding...
-          return this.parentNode.parentNode.onPopupClick(event);
+          document.getBindingParent(this).onPopupClick(event);
+          document.getBindingParent(this).reallyClosePopup();
         ]]></body>
       </method>
 
@@ -217,7 +218,7 @@
         this.richlistbox.setAttribute('flex', '1');
         this.appendChild(richlistbox);
 
-        this.popup = this.parentNode.parentNode;
+        this.popup = document.getBindingParent(this);
       ]]></constructor>
 
       <property name="disabled">

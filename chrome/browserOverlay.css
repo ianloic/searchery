@@ -47,33 +47,32 @@ richlistitem[type ~= 'searchery'][selected="true"] > hbox {
 }
 
 
-.searchery-section-places {
+
+searchery-section {
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  background-image: url(title-gradient.png);
+  background-repeat: repeat-x;
+}
+
+searchery-section#searchery-places {
   -moz-binding: url(chrome://searchery/content/bindings.xml#places-section) !important;
 }
-
-.searchery-section {
-  -moz-binding: url(chrome://searchery/content/bindings.xml#section) !important;
-}
-
-.searchery-section#searchery-engines {
+searchery-section#searchery-engines {
   -moz-binding: url(chrome://searchery/content/bindings.xml#engines-section) !important;
 }
-.searchery-section#searchery-google {
+searchery-section#searchery-google {
   -moz-binding: url(chrome://searchery/content/websearch.xml#google-section) !important;
 }
-.searchery-section#searchery-amazon {
+searchery-section#searchery-amazon {
   -moz-binding: url(chrome://searchery/content/websearch.xml#amazon-section) !important;
 }
 
 .searchery-section-header {
   font-weight: bold;
 }
-vbox[anonid="searchery-sections"] > vbox[selected="true"] {
+searchery-section[selected="true"] {
   background-color: #cbeaff;
-}
-vbox[anonid="searchery-sections"] > vbox {
-  background-image: url(title-gradient.png);
-  background-repeat: repeat-x;
 }
 
 .searchery-section-spinner {
@@ -81,7 +80,7 @@ vbox[anonid="searchery-sections"] > vbox {
   height: 16px;
   list-style-image: none;
 }
-.searchery-section[loading="true"] .searchery-section-spinner {
+searchery-section[loading="true"] .searchery-section-spinner {
   list-style-image: url(chrome://global/skin/icons/loading_16.png);
 }
 
@@ -94,10 +93,10 @@ image.searchery-disclosure-triangle[state="open"] {
 image.searchery-disclosure-triangle[state="closed"] {
   list-style-image: url(disclosure-closed.png)
 }
-.searchery-section-places .searchery-disclosure-triangle {
+searchery-section#searchery-places .searchery-disclosure-triangle {
   display: none;
 }
 
-.searchery-section[disabled="true"] richlistbox {
+searchery-section[disabled="true"] richlistbox {
   display: none;
 }
