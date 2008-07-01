@@ -1,5 +1,4 @@
 For 0.3:
- * don't search disabled search engines
  * provide a way to show the search box
  * provide pgup/pgdn hints
  * keystroke to enable/disable sections (tab?)

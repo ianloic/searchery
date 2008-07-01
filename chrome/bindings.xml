@@ -195,10 +195,17 @@
           }
         ]]></setter>
       </property>
+      <field name="lastQuery">null</field>
       <method name="newSearch">
         <parameter name="query"/>
-        <!-- implemented by subclasses as appropriate -->
-        <body></body>
+        <body><![CDATA[
+          // save the query
+          this.lastQuery = query;
+          // if we're not disabled, run the search
+          if (!this.disabled) {
+            this.doSearch(query);
+          }
+        ]]></body>
       </method>
       <property name="selected">
         <getter><![CDATA[
@@ -241,6 +248,11 @@
           document.getBindingParent(this).reallyClosePopup();
         ]]></body>
       </method>
+      <method name="doSearch">
+        <parameter name="query"/>
+        <!-- already implemented by Mozilla autocomplete -->
+        <body></body>
+      </method>
     </implementation>
   </binding>
 
@@ -265,6 +277,10 @@
             this.setAttribute('disabled', 'true');
           } else {
             this.removeAttribute('disabled');
+            // if we're being enabled, time to search
+            if (this.lastQuery) {
+              this.doSearch(this.lastQuery);
+            }
           }
         ]]></setter>
       </property>
@@ -326,12 +342,6 @@
           this.richlistbox.appendChild(item);
         ]]></body>
       </method>
-      <method name="newSearch">
-        <parameter name="query"/>
-        <body><![CDATA[
-          // do stuff
-        ]]></body>
-      </method>
     </implementation>
     <handlers>
       <handler event="DisclosureChanged"><![CDATA[
@@ -342,12 +352,9 @@
 
   <binding id="engines-section" extends="#section">
     <implementation>
-      <method name="newSearch">
+      <method name="doSearch">
         <parameter name="query"/>
         <body><![CDATA[
-          // save the query
-          // FIXME: refactor this into a baseclass somehow
-          this.lastQuery = query;
 
           // make sure we have a reference to the search service
           if (!this._searchService) {

@@ -29,7 +29,7 @@
 
   <binding id="websearch-base" extends="bindings.xml#section">
     <implementation>
-      <method name="newSearch">
+      <method name="doSearch">
         <parameter name="query"/>
         <body><![CDATA[
           // save the query
