@@ -1,5 +1,7 @@
 For 0.3:
  * don't search disabled search engines
+ * provide a way to show the search box
+ * provide pgup/pgdn hints
 Future:
  * support adding new search engines
     * add search engines
