@@ -183,6 +183,9 @@
       <children/>
     </content>
     <implementation>
+      <constructor><![CDATA[ 
+        this.popup = document.getBindingParent(this);
+      ]]></constructor>
       <property name="loading">
         <setter><![CDATA[
           if (val) {
@@ -218,10 +221,10 @@
         <setter><![CDATA[
           if (val) {
             this.setAttribute('selected', 'true');
-            //this.richlistbox.selectedIndex = 0;
+            this.popup.richlistbox.selectedIndex = 0;
           } else {
             this.removeAttribute('selected');
-            //this.richlistbox.selectedIndex = -1;
+            this.popup.richlistbox.selectedIndex = -1;
           }
         ]]></setter>
       </property>
@@ -238,7 +241,6 @@
         this.richlistbox.setAttribute('flex', '1');
         this.appendChild(richlistbox);
 
-        this.popup = document.getBindingParent(this);
       ]]></constructor>
 
       <property name="disabled">
