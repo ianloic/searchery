@@ -1,10 +1,10 @@
-For 0.1:
+For 0.3:
+ * don't search disabled search engines
+Future:
  * support adding new search engines
     * add search engines
     * hide the add menu items for engines that we already have?
- * work out and test updates story
  * hide the search-suggestions option from the search engine management ui
-Future:
+   or show search suggestions...
  * integrate keyword search cleverly
- * integrate search suggestions
  * write more live-search implemetations
