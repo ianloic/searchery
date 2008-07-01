@@ -2,7 +2,15 @@ For 0.3:
  * don't search disabled search engines
  * provide a way to show the search box
  * provide pgup/pgdn hints
+ * keystroke to enable/disable sections (tab?)
+
 Future:
+ * real configuration ui
+    * show/hide sections
+    * reorder sections
+ * extensibility
+    * extensions can add sections
+    * support full opensearch
  * support adding new search engines
     * add search engines
     * hide the add menu items for engines that we already have?
@@ -10,3 +18,5 @@ Future:
    or show search suggestions...
  * integrate keyword search cleverly
  * write more live-search implemetations
+    * search suggestions
+    * gmail search
