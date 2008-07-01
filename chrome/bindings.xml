@@ -176,8 +176,8 @@
         <xul:image class="searchery-disclosure-triangle" state="open"/>
         <xul:label class="searchery-section-header" xbl:inherits="value=title"/>
         <xul:spacer flex="1"/>
-        <xul:image class="searchery-section-configure"
-                   tooltiptext="Configure..."/>
+        <xul:label class="searchery-section-configure"
+                   value="Configure..."/>
         <xul:image class="searchery-section-spinner"/>
       </xul:hbox>
       <children/>
@@ -436,7 +436,7 @@
     </handlers>
   </binding>
 
-  <binding id="configure" extends="xul:image">
+  <binding id="configure">
     <handlers>
       <handler event="click"><![CDATA[
         var evt = document.createEvent('Event');

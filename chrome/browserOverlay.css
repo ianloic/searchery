@@ -68,15 +68,15 @@ searchery-section[loading="true"] .searchery-section-spinner {
 }
 
 .searchery-section-configure {
-  width: 16px;
-  height: 16px;
-  list-style-image: url(cog.png);
   visibility: collapse;
   -moz-opacity: 0.5;
   -moz-binding: url(chrome://searchery/content/bindings.xml#configure);
+  font-size: smaller;
 }
 .searchery-section-configure:hover {
   -moz-opacity: 1.0;
+  color: blue;
+  text-decoration: underline;
 }
 #searchery-engines .searchery-section-configure {
   visibility: visible;
