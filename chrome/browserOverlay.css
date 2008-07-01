@@ -54,7 +54,7 @@ searchery-section#searchery-amazon {
 .searchery-section-header {
   font-weight: bold;
 }
-searchery-section[selected="true"] {
+searchery-section[selected="true"], searchery-section[selected="true"] richlistbox {
   background-color: #cbeaff;
 }
 
