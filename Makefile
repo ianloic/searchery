@@ -1,4 +1,4 @@
-VERSION=0.2.1
+VERSION=0.2.2pre
 
 XPIFILE=web/searchery-$(VERSION).xpi
 
