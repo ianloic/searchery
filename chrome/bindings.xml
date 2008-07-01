@@ -200,11 +200,39 @@
         <!-- implemented by subclasses as appropriate -->
         <body></body>
       </method>
+      <property name="selected">
+        <getter><![CDATA[
+          return this.hasAttribute('selected');
+        ]]></getter>
+        <setter><![CDATA[
+          if (val) {
+            this.setAttribute('selected', 'true');
+            this.richlistbox.selectedIndex = 0;
+          } else {
+            this.removeAttribute('selected');
+            this.richlistbox.selectedIndex = -1;
+          }
+        ]]></setter>
+      </property>
+
     </implementation>
+    <handlers>
+      <handler event="mouseout"><![CDATA[
+        if (event.target == this && !this.selected) {
+          // if we're being mouse-out-ed and we're not selected, deselect the
+          // richlistbox. this doesn't seem to be at all reliable
+          this.richlistbox.selectedIndex = -1;
+        }
+      ]]></handler>
+    </handlers>
   </binding>
 
   <binding id="places-section" extends="#base-section">
     <implementation>
+      <constructor><![CDATA[
+        // this section's richlist box is actually the popup's
+        this.richlistbox = this.popup.richlistbox;
+      ]]></constructor>
       <method name="onPopupClick">
         <parameter name="event" />
         <body><![CDATA[
@@ -213,21 +241,6 @@
           document.getBindingParent(this).reallyClosePopup();
         ]]></body>
       </method>
-
-      <property name="selected">
-        <getter><![CDATA[
-          return this.hasAttribute('selected');
-        ]]></getter>
-        <setter><![CDATA[
-          if (val) {
-            this.setAttribute('selected', 'true');
-            this.popup.richlistbox.selectedIndex = 0;
-          } else {
-            this.removeAttribute('selected');
-            this.popup.richlistbox.selectedIndex = -1;
-          }
-        ]]></setter>
-      </property>
     </implementation>
   </binding>
 
@@ -281,21 +294,6 @@
           this.richlistbox.selectedIndex = newIndex;
         ]]></body>
       </method>
-      <property name="selected">
-        <getter><![CDATA[
-          return this.hasAttribute('selected');
-        ]]></getter>
-        <setter><![CDATA[
-          if (val) {
-            this.setAttribute('selected', 'true');
-            this.richlistbox.selectedIndex = 0;
-          } else {
-            this.removeAttribute('selected');
-            this.richlistbox.selectedIndex = -1;
-          }
-        ]]></setter>
-      </property>
-
       <method name="clearResults">
         <body><![CDATA[
           // clear the richlistbox
