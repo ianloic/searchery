@@ -5,9 +5,11 @@ For 0.3:
  * keystroke to enable/disable sections (tab?)
 
 Future:
+ * rename chrome files to be more sensible
  * real configuration ui
     * show/hide sections
     * reorder sections
+    * configure "enter" behavior (ie: engines instead of "I'm feeling lucky")
  * extensibility
     * extensions can add sections
     * support full opensearch
