@@ -98,3 +98,7 @@ searchery-section#searchery-places .searchery-disclosure-triangle {
 searchery-section[disabled="true"] richlistbox {
   display: none;
 }
+
+.searchery-hints {
+  font-size: smaller;
+}

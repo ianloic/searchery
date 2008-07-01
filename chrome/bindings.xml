@@ -39,6 +39,10 @@
         <xul:searchery-section title="Search Engines" id="searchery-engines" />
         <xul:searchery-section title="Google Results" id="searchery-google" />
         <xul:searchery-section title="Amazon Results" id="searchery-amazon" />
+        <xul:description class="searchery-hints">
+          Press <html:i>PgUp</html:i> &amp; <html:i>PgDn</html:i>
+          to move between sections.
+        </xul:description>
       </xul:vbox>
     </content>
 
