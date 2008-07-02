@@ -42,7 +42,7 @@
       </xul:vbox>
       <xul:description class="searchery-hints">
         Press <html:i>PgUp</html:i> &amp; <html:i>PgDn</html:i>
-        to move between sections.
+        to move between sections, <html:i>Tab</html:i> to toggle.
       </xul:description>
     </content>
 
@@ -69,6 +69,9 @@
             self.reallyClosePopup();
           } else if (event.keyCode == 27) {
             self.reallyClosePopup();
+          } else if (event.keyCode == 9) {
+            self._sections[self._section].disabled =
+                !self._sections[self._section].disabled;
           }
         }
       ]]></constructor>
@@ -187,7 +190,16 @@
     </content>
     <implementation>
       <constructor><![CDATA[ 
+        // the popup we're in
         this.popup = document.getBindingParent(this);
+
+        // our id
+        this._id = this.getAttribute('id');
+        // make up a pref name
+        this._enabled_pref = 'extensions.searchery.section-enabled.' + 
+            this._id;
+        // restore the disabled state
+        this.disabled = this.disabled;
       ]]></constructor>
       <property name="loading">
         <setter><![CDATA[
@@ -224,7 +236,23 @@
           }
         ]]></setter>
       </property>
-
+      <property name="disabled">
+        <getter><![CDATA[
+          return !Application.prefs.getValue(this._enabled_pref, true);
+        ]]></getter>
+        <setter><![CDATA[
+          if (val) {
+            this.setAttribute('disabled', 'true');
+          } else {
+            this.removeAttribute('disabled');
+            // if we're being enabled, time to search
+            if (this.lastQuery) {
+              this.doSearch(this.lastQuery);
+            }
+          }
+          Application.prefs.setValue(this._enabled_pref, !val);
+        ]]></setter>
+      </property>
     </implementation>
     <handlers>
       <handler event="mouseout"><![CDATA[
@@ -233,6 +261,9 @@
           // richlistbox. this doesn't seem to be at all reliable
           this.richlistbox.selectedIndex = -1;
         }
+      ]]></handler>
+      <handler event="DisclosureChanged"><![CDATA[
+        this.disabled = !this.disabled;
       ]]></handler>
     </handlers>
   </binding>
@@ -271,22 +302,6 @@
 
       ]]></constructor>
 
-      <property name="disabled">
-        <getter><![CDATA[
-          return this.hasAttribute('disabled');
-        ]]></getter>
-        <setter><![CDATA[
-          if (val) {
-            this.setAttribute('disabled', 'true');
-          } else {
-            this.removeAttribute('disabled');
-            // if we're being enabled, time to search
-            if (this.lastQuery) {
-              this.doSearch(this.lastQuery);
-            }
-          }
-        ]]></setter>
-      </property>
       <method name="onPopupClick">
         <parameter name="event" />
         <body><![CDATA[
@@ -346,11 +361,6 @@
         ]]></body>
       </method>
     </implementation>
-    <handlers>
-      <handler event="DisclosureChanged"><![CDATA[
-        this.disabled = !event.originalTarget.open;
-      ]]></handler>
-    </handlers>
   </binding>
 
   <binding id="engines-section" extends="#section">
@@ -401,40 +411,11 @@
   </binding>
 
   <binding id="disclosure-triangle" extends="xul:image">
-    <implementation>
-      <constructor><![CDATA[
-        // read the id of the binding we're inside of
-        this._id = document.getBindingParent(this).getAttribute('id');
-        // make up a pref name
-        this._pref = 'extensions.searchery.section-enabled.' + this._id
-        // restore the open state
-        this.open = Application.prefs.getValue(this._pref, true);
-      ]]></constructor>
-
-      <property name="state">
-        <getter><![CDATA[
-          return this.getAttribute('state');
-        ]]></getter>
-        <setter><![CDATA[
-          this.setAttribute('state', val);
-          var event = document.createEvent('Event');
-          event.initEvent('DisclosureChanged', true, true);
-          this.dispatchEvent(event);
-        ]]></setter>
-      </property>
-      <property name="open">
-        <getter><![CDATA[
-          return this.state === 'open';
-        ]]></getter>
-        <setter><![CDATA[
-          this.state = val?'open':'closed';
-          Application.prefs.setValue(this._pref, val?true:false);
-        ]]></setter>
-      </property>
-    </implementation>
     <handlers>
       <handler event="click">
-        this.open = !this.open;
+        var evt = document.createEvent('Event');
+        evt.initEvent('DisclosureChanged', true, true);
+        this.dispatchEvent(evt);
       </handler>
     </handlers>
   </binding>

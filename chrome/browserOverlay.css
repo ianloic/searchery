@@ -85,10 +85,10 @@ searchery-section[loading="true"] .searchery-section-spinner {
 image.searchery-disclosure-triangle {
   -moz-binding: url(chrome://searchery/content/bindings.xml#disclosure-triangle);
 }
-image.searchery-disclosure-triangle[state="open"] {
+searchery-section image.searchery-disclosure-triangle {
   list-style-image: url(disclosure-open.png)
 }
-image.searchery-disclosure-triangle[state="closed"] {
+searchery-section[disabled="true"] image.searchery-disclosure-triangle {
   list-style-image: url(disclosure-closed.png)
 }
 searchery-section#searchery-places .searchery-disclosure-triangle {
@@ -97,6 +97,10 @@ searchery-section#searchery-places .searchery-disclosure-triangle {
 
 searchery-section[disabled="true"] richlistbox {
   display: none;
+}
+
+searchery-section#searchery-places richlistbox {
+  display: -moz-box !important;
 }
 
 .searchery-hints {
