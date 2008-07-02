@@ -59,12 +59,15 @@
         this._keypressListener = function (event) {
           if (event.keyCode == 13) {
             if (self._section) {
-              event.preventDefault();
-              event.stopPropagation();
               var item = self._sections[self._section].richlistbox.selectedItem;
-              var url = item.getAttribute('url');
-              self.input.textValue = url;
-              handleURLBarCommand(event);
+              if (item) {
+                var url = item.getAttribute('url');
+                self.reallyClosePopup();
+                self.input.textValue = url;
+                handleURLBarCommand(event);
+                event.preventDefault();
+                event.stopPropagation();
+              }
             }
             self.reallyClosePopup();
           } else if (event.keyCode == 27) {
@@ -172,6 +175,10 @@
       <handler event="popuphiding"><![CDATA[
         this.input.removeEventListener('input', this._inputListner, false);
         this.input.removeEventListener('keypress', this._keypressListner, true);
+        // clear the selection on all the sections;
+        for (var i=0; i<this._sections.length; i++) {
+          this._sections[i].richlistbox.selectedIndex = -1;
+        }
       ]]></handler>
     </handlers>
   </binding>
