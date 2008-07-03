@@ -58,11 +58,6 @@ Searchery.windowOnLoad = function() {
       return hide_searchbox_pref.value ?
         Searchery.urlbar : document.getElementById('searchbar')
         })
-
-  // wire up the 'searchButton' property to our ui
-  this.urlbar.searchButton = document.getElementById('searchery-icon');
-
-
 }
 
 window.addEventListener('load', function() { Searchery.windowOnLoad() },

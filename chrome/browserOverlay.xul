@@ -26,9 +26,4 @@
   <script type="text/javascript"
     src="chrome://searchery/content/browserOverlay.js"></script>
 
-  <hbox id="urlbar-icons">
-    <image class="urlbar-icon" id="searchery-icon"
-      insertbefore="go-button" />
-  </hbox>
-
 </overlay>

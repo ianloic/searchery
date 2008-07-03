@@ -17,16 +17,6 @@
  *  along with Searchery.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#urlbar-icons > #searchery-icon {
-  list-style-image: none;
-  visibility: collapse !important;
-}
-
-#urlbar-icons > #searchery-icon[addengines='true'] {
-  list-style-image: url(chrome://searchery/content/magnifier_zoom_in.png);
-  visibility: visible !important;
-}
-
 #PopupAutoCompleteRichResult {
   -moz-binding: url(chrome://searchery/content/bindings.xml#autocomplete-rich-result-popup) !important;
 }
