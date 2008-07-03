@@ -37,6 +37,8 @@ Searchery.windowOnLoad = function() {
       try {
         BrowserToolbarCustomizeDone();
       } catch(e) { }
+      // do a little fixup
+      gURLBar = document.getElementById("urlbar");
     }
   }
 
