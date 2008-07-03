@@ -32,7 +32,7 @@
     <content ignorekeys="true" flex="1">
       <xul:vbox anonid="searchery-sections" flex="1">
         <xul:searchery-section title="History and Bookmarks"
-                               id="searchery-places" selected="true">
+                               id="searchery-places" selected="true" flex="1">
           <xul:richlistbox anonid="richlistbox" class="autocomplete-richlistbox"
                            flex="1"/>
         </xul:searchery-section>
@@ -196,14 +196,14 @@
       <children/>
     </content>
     <implementation>
-      <constructor><![CDATA[ 
+      <constructor><![CDATA[
         // the popup we're in
         this.popup = document.getBindingParent(this);
 
         // our id
         this._id = this.getAttribute('id');
         // make up a pref name
-        this._enabled_pref = 'extensions.searchery.section-enabled.' + 
+        this._enabled_pref = 'extensions.searchery.section-enabled.' +
             this._id;
         // restore the disabled state
         this.disabled = this.disabled;

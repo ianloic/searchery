@@ -33,6 +33,7 @@ searchery-section#searchery-places {
 }
 searchery-section#searchery-engines {
   -moz-binding: url(chrome://searchery/content/bindings.xml#engines-section) !important;
+  max-height: 20%; /* otherwise it gets too big */
 }
 searchery-section#searchery-google {
   -moz-binding: url(chrome://searchery/content/websearch.xml#google-section) !important;
