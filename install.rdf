@@ -9,7 +9,7 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="searchery@ianloic.com"
                    em:name="Searchery"
-                   em:version="0.2.3pre"
+                   em:version="0.3.0"
                    em:creator="Ian McKellar &lt;ian@mckellar.org&gt;"
                    em:description="Precision Web Search for Firefox"
                    em:homepageURL="http://searchery.ianloic.com/"
