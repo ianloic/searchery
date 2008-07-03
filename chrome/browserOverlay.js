@@ -21,43 +21,34 @@ var Searchery = {};
 
 // initialization
 Searchery.windowOnLoad = function() {
-  if (Application.prefs.get("extensions.searchery.firstrun").value) {
-    Application.prefs.setValue("extensions.searchery.firstrun", false);
+  if (Application.prefs.get("extensions.searchery.first-run").value) {
+    Application.prefs.setValue("extensions.searchery.first-run", false);
     // show the welcome page in a tab
     gBrowser.selectedTab =
       gBrowser.addTab("http://searchery.ianloic.com/welcome.html");
-  }
 
-  // add ourselves to the urlbar autocomplete list
-  this.urlbar = document.getElementById('urlbar');
-
-  var hide_searchbox_pref =
-    Application.prefs.get('extensions.searchery.hide-searchbox');
-
-  // hide the searchbar if appropriate
-  function show_or_hide_searchbox() {
-    var searchbox = document.getElementById('search-container');
-    if (searchbox) {
-      if (hide_searchbox_pref.value) {
-        searchbox.setAttribute('style', 'display:none');
-      } else {
-        searchbox.removeAttribute('style');
-      }
+    // remove search box
+    var nav_bar = document.getElementById('nav-bar');
+    if (nav_bar) {
+      nav_bar.currentSet = nav_bar.currentSet.split(',').filter(
+        function(i) { return i!= 'search-container'; }).join(',');
+      nav_bar.setAttribute('currentset', nav_bar.currentSet);
+      document.persist('nav-bar', 'currentset');
+      try {
+        BrowserToolbarCustomizeDone();
+      } catch(e) { }
     }
   }
-  show_or_hide_searchbox();
-
-  // add an event listener for pref changes
-  hide_searchbox_pref.events.addListener('change', function (event) {
-      show_or_hide_searchbox();
-      });
 
   // trick the Firefox browser search functionality into using the urlbar
-  // when we've hidden the search bar
+  // when the searchbar is hidden
   BrowserSearch.__defineGetter__('searchBar', function() {
-      return hide_searchbox_pref.value ?
-        Searchery.urlbar : document.getElementById('searchbar')
-        })
+    var searchbar = document.getElementById('searchbar');
+    if (!searchbar) {
+      searchbar = document.getElementById('urlbar');
+    }
+    return searchbar;
+  });
 }
 
 window.addEventListener('load', function() { Searchery.windowOnLoad() },
