@@ -52,9 +52,17 @@
             'anonid', 'searchery-sections').childNodes;
 
         var self = this;
+        this._inputTimeout = null;
         // these listeners are attached to the input when they can be
         this._inputListener = function (event) {
-          self.newSearch();
+          if (self._inputTimeout != null) {
+            clearTimeout(self._inputTimeout);
+            self._inputTimeout = null;
+          }
+          self._inputTimeout = setTimeout(function () {
+            self.newSearch();
+            self._inputTimeout = null;
+          }, 300);
         }
         this._keypressListener = function (event) {
           if (event.keyCode == 13) {

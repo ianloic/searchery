@@ -55,6 +55,8 @@
 
           this.loading = true;
 
+          this.clearResults();
+
           // make the request
           this.makeRequest(query);
         ]]></body>
