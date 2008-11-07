@@ -1,21 +1,20 @@
 <?xml version="1.0"?>
-<RDF:RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#"
-         xmlns:NC="http://home.netscape.com/NC-rdf#"
-         xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <RDF:Description RDF:about="rdf:#$5lQcO1"
-                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="3.0"
-                   em:maxVersion="3.0.*" />
-  <RDF:Description RDF:about="urn:mozilla:install-manifest"
-                   em:id="searchery@ianloic.com"
-                   em:name="Searchery"
-                   em:version="0.3.1"
-                   em:creator="Ian McKellar &lt;ian@mckellar.org&gt;"
-                   em:description="Precision Web Search for Firefox"
-                   em:homepageURL="http://searchery.ianloic.com/"
-                   em:contributor="Icons from Silk: http://www.famfamfam.com/lab/icons/silk/"
-                   em:iconURL="chrome://searchery/content/magnifier32.png"
-                   >
-    <em:targetApplication RDF:resource="rdf:#$5lQcO1"/>
-  </RDF:Description>
-</RDF:RDF>
+<RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#" xmlns:NC="http://home.netscape.com/NC-rdf#">
+  <Description about="urn:mozilla:install-manifest">
+    <em:id>searchery@ianloic.com</em:id>
+    <em:name>Searchery</em:name>
+    <em:version>0.3.2</em:version>
+    <em:creator>Ian McKellar &lt;ian@mckellar.org&gt;</em:creator>
+    <em:description>Precision Web Search for Firefox</em:description>
+    <em:homepageURL>http://searchery.ianloic.com/</em:homepageURL>
+    <em:contributor>Icons from Silk: http://www.famfamfam.com/lab/icons/silk/</em:contributor>
+    <em:iconURL>chrome://searchery/content/magnifier32.png</em:iconURL>
+    <em:targetApplication>
+      <Description><!-- Firefox -->
+        <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+        <em:minVersion>3.0</em:minVersion>
+        <em:maxVersion>3.0.*</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+  </Description>
+</RDF>

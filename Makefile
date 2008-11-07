@@ -1,4 +1,4 @@
-VERSION=0.3.1
+VERSION=$(shell grep em:version install.rdf|sed -e 's/<[^>]*>//g'|sed -e 's/ //g')
 
 XPIFILE=web/searchery-$(VERSION).xpi
 

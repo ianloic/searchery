@@ -66,6 +66,10 @@
         }
         this._keypressListener = function (event) {
           if (event.keyCode == 13) {
+            if (this._inputTimeout != null) {
+              clearTimeout(self._inputTimeout);
+              self._inputTimeout = null;
+            }
             if (self._section) {
               var item = self._sections[self._section].richlistbox.selectedItem;
               if (item) {
